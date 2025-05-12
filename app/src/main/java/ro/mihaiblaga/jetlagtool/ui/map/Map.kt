@@ -23,7 +23,6 @@ fun MapLibreView() {
             override fun onResume(owner: LifecycleOwner) = mapView.onResume()
             override fun onPause(owner: LifecycleOwner) = mapView.onPause()
             override fun onDestroy(owner: LifecycleOwner) = mapView.onDestroy()
-//            override fun onLowMemory(owner: LifecycleOwner) = mapView.onLowMemory()
         }
 
         lifecycle.addObserver(observer)
@@ -36,6 +35,15 @@ fun MapLibreView() {
         mapView.onCreate(null)
         mapView.getMapAsync { mapboxMap ->
             mapboxMap.setStyle("https://api.maptiler.com/maps/openstreetmap/style.json?key=${BuildConfig.MAPLIBRE_ACCESS_TOKEN}")
+
+            val uiSettings = mapboxMap.uiSettings
+
+            val density = context.resources.displayMetrics.density
+            val bottomMarginInDp = 16 // Example margin in dp
+            val leftMarginInDp = 16 // Example margin in dp
+            val bottomMarginInPx = (bottomMarginInDp * density).toInt()
+            val leftMarginInPx = (leftMarginInDp * density).toInt()
+            uiSettings.setCompassMargins(leftMarginInPx, 0, 0, bottomMarginInPx)
         }
         mapView
     })
