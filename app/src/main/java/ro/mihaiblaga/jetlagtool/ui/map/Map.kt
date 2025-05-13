@@ -4,7 +4,9 @@ package ro.mihaiblaga.jetlagtool.ui.map
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -13,7 +15,10 @@ import org.maplibre.android.maps.MapView
 import ro.mihaiblaga.jetlagtool.BuildConfig
 
 @Composable
-fun MapLibreView() {
+fun MapLibreView(
+    modifier: Modifier = Modifier,
+
+) {
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
     val mapView = remember { MapView(context) }
@@ -46,5 +51,12 @@ fun MapLibreView() {
             uiSettings.setCompassMargins(leftMarginInPx, 0, 0, bottomMarginInPx)
         }
         mapView
-    })
+    },
+        modifier = modifier)
+}
+
+@Preview
+@Composable
+fun MapViewPreview() {
+    MapLibreView()
 }
