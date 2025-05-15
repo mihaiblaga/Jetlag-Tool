@@ -1,7 +1,6 @@
 package ro.mihaiblaga.jetlagtool.ui
 
-import DashboardButton
-import android.util.Log
+import Dashboard
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -30,7 +29,7 @@ fun MainUI(
                 .align(Alignment.BottomEnd),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            DashboardButton(onClick = { Log.d("DashboardButton", "Clicked") })
+            Dashboard()
         }
     }
 }
