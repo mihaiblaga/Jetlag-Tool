@@ -15,14 +15,15 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ro.mihaiblaga.jetlagtool.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.dashboard.DashboardButton
 
 @Composable
 fun Dashboard(
     modifier: Modifier = Modifier,
+    model: MapViewModel,
     ) {
     var isExpanded by remember { mutableStateOf(false) }
-
     Box(
         contentAlignment = Alignment.BottomEnd,
         modifier = Modifier
@@ -43,6 +44,7 @@ fun Dashboard(
                 icon = Icons.Filled.Edit,
                 shape = CircleShape,
                 onClick = {
+                    model.requestMapCenter(46.7712, 23.6236, 12.0)
                     isExpanded = !isExpanded
                     Log.d("Dashboard", "DashboardButton clicked. State is: $isExpanded")
                 }
@@ -54,5 +56,8 @@ fun Dashboard(
 @Preview
 @Composable
 fun DashboardPreview() {
-    Dashboard()
+    Dashboard(
+        modifier = TODO(),
+        model = TODO(),
+    )
 }

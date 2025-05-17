@@ -11,13 +11,16 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
 import ro.mihaiblaga.jetlagtool.BuildConfig
+import ro.mihaiblaga.jetlagtool.MapViewModel
 
 @Composable
 fun MapLibreView(
+    model: MapViewModel,
     modifier: Modifier = Modifier,
-
+    onMapReady: (MapLibreMap) -> Unit
 ) {
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
@@ -35,20 +38,19 @@ fun MapLibreView(
             lifecycle.removeObserver(observer)
         }
     }
-
     AndroidView(factory = {
         mapView.onCreate(null)
-        mapView.getMapAsync { mapboxMap ->
-            mapboxMap.setStyle("https://api.maptiler.com/maps/openstreetmap/style.json?key=${BuildConfig.MAPLIBRE_ACCESS_TOKEN}")
+        mapView.getMapAsync { maplibreMap ->
+            maplibreMap.setStyle("https://api.maptiler.com/maps/openstreetmap/style.json?key=${BuildConfig.MAPLIBRE_ACCESS_TOKEN}")
 
-            val uiSettings = mapboxMap.uiSettings
-
+            val uiSettings = maplibreMap.uiSettings
             val density = context.resources.displayMetrics.density
             val bottomMarginInDp = 16 // Example margin in dp
             val leftMarginInDp = 16 // Example margin in dp
             val bottomMarginInPx = (bottomMarginInDp * density).toInt()
             val leftMarginInPx = (leftMarginInDp * density).toInt()
             uiSettings.setCompassMargins(leftMarginInPx, 0, 0, bottomMarginInPx)
+            onMapReady(maplibreMap)
         }
         mapView
     },
@@ -58,5 +60,9 @@ fun MapLibreView(
 @Preview
 @Composable
 fun MapViewPreview() {
-    MapLibreView()
+    MapLibreView(
+        model = TODO(),
+        modifier = TODO(),
+        onMapReady = {}
+    )
 }

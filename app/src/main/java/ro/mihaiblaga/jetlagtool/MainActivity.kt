@@ -23,11 +23,9 @@ class MainActivity : ComponentActivity() {
         setContent {
             JetlagToolTheme {
                 val viewModel = viewModel<MapViewModel>()
-                val state = viewModel.state
                 MainUI(
-                    state = state,
+                    mapViewModel = viewModel,
                     modifier = Modifier
-
                 )
 
             }
