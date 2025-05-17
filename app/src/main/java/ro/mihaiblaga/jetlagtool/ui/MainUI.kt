@@ -6,8 +6,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -16,8 +14,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
-import org.maplibre.android.camera.CameraPosition
-import org.maplibre.android.camera.CameraUpdateFactory
 import org.maplibre.android.maps.MapLibreMap
 import ro.mihaiblaga.jetlagtool.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.map.MapLibreView
@@ -29,14 +25,6 @@ fun MainUI(
     modifier: Modifier = Modifier,
 ) {
     var mapLibreInstance by remember { mutableStateOf<MapLibreMap?>(null) }
-
-    val cameraUpdateRequest: CameraPosition? by mapViewModel.cameraUpdateRequest.collectAsState()
-    LaunchedEffect(cameraUpdateRequest) {
-        cameraUpdateRequest?.let { position ->
-            mapLibreInstance?.animateCamera(CameraUpdateFactory.newCameraPosition(position))
-            mapViewModel.cameraUpdateHandled()
-        }
-    }
 
     Box(modifier = modifier) {
         MapLibreView(

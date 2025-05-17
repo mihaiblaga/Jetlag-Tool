@@ -4,30 +4,43 @@ import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
-import org.maplibre.android.maps.Style
 
-class MapViewModel: ViewModel() {
-    private val _cameraUpdateRequest = MutableStateFlow<CameraPosition?>(null)
+class MapViewModel : ViewModel() {
 
-    private val _createPolygonRequest = MutableStateFlow<Style?>(null)
+    private val _mapActions = MutableStateFlow<List<MapAction>>(emptyList())
+    val mapActions: StateFlow<List<MapAction>> = _mapActions.asStateFlow()
 
-    val cameraUpdateRequest: StateFlow<CameraPosition?> = _cameraUpdateRequest.asStateFlow()
-
-    val createPolygonRequest: StateFlow<Style?> = _createPolygonRequest.asStateFlow()
-
-    private fun createPolygonRequest() {
-        _createPolygonRequest.value = Style.Builder().fromUri(Style.MAPBOX_STREETS).build()
+    fun requestCameraAnimation(position: CameraPosition) {
+        _mapActions.update { currentActions -> currentActions + MapAction.AnimateCamera(position) }
     }
 
-    fun requestMapCenter(longitude: Double, latitude: Double, zoom: Double) {
-        _cameraUpdateRequest.value = CameraPosition.Builder()
-            .target(LatLng(longitude, latitude))
-            .zoom(zoom)
-            .build()
+    fun requestPolygonDraw(
+        points: List<LatLng>,
+        sourceId: String = "default-polygon-${System.currentTimeMillis()}",
+        layerId: String = "default-polygon-id-${System.currentTimeMillis()}"
+    ) {
+        _mapActions.update { currentActions ->
+            currentActions + MapAction.DrawPolygon(points, sourceId, layerId)
+        }
     }
-    fun cameraUpdateHandled() {
-        _cameraUpdateRequest.value = null
+
+    fun requestAddMarker(position: LatLng, title: String? = null, snippet: String? = null) {
+        _mapActions.update { currentActions -> currentActions + MapAction.AddMarker(position, title, snippet)}
+    }
+
+    fun mapActionHandled(actionToRemove: MapAction) {
+        _mapActions.update { currentActions -> currentActions - actionToRemove }
+    }
+
+    fun allMapActionsHandled(processedActions: List<MapAction>) {
+        _mapActions.update { currentActions ->
+            currentActions.filterNot { it in processedActions }
+        }
+    }
+    fun clearAllMapActions() {
+        _mapActions.update { emptyList() }
     }
 }
