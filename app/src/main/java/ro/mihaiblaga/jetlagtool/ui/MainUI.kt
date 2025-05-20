@@ -1,6 +1,6 @@
 package ro.mihaiblaga.jetlagtool.ui
 
-import Dashboard
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -16,6 +16,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.maplibre.android.maps.MapLibreMap
 import ro.mihaiblaga.jetlagtool.MapViewModel
+import ro.mihaiblaga.jetlagtool.ui.dashboard.Dashboard
 import ro.mihaiblaga.jetlagtool.ui.map.MapLibreView
 
 
@@ -35,6 +36,7 @@ fun MainUI(
                 mapLibreInstance = mapLibreMap
             }
         )
+        Log.d("MainUI", "Called MapLibreView")
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -44,6 +46,8 @@ fun MainUI(
             Dashboard(
                 model = mapViewModel,
             )
+            Log.d("Dashboard", "Called Dashboard")
+
         }
     }
 }
