@@ -15,6 +15,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import ro.mihaiblaga.jetlagtool.MapViewModel
@@ -32,7 +33,7 @@ fun Dashboard(
     ) {
         Column(
             modifier = Modifier
-                .padding(75.dp)
+                .padding(50.dp)
         ) {
             val polygonPoints: List<LatLng> = listOf(
                 LatLng(46.7712, 23.6236),
@@ -69,8 +70,9 @@ fun Dashboard(
 @Preview
 @Composable
 fun DashboardPreview() {
+    val viewModel = viewModel<MapViewModel>()
     Dashboard(
-        modifier = TODO(),
-        model = TODO(),
+        modifier = Modifier,
+        model = viewModel,
     )
 }

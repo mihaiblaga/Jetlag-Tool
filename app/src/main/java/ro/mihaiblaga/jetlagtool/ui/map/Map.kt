@@ -16,7 +16,6 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import org.maplibre.android.camera.CameraUpdateFactory
 import org.maplibre.android.geometry.LatLng
-import org.maplibre.android.geometry.LatLngBounds
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
 import org.maplibre.android.maps.Style
@@ -89,24 +88,6 @@ fun MapLibreView(
                                     val currentPoints = action.points
                                     Log.d("MapDebug", "Attempting to draw polygon. Points: $currentPoints")
                                     drawPolygonOnMap(style, action.points, action.sourceId, action.layerId)
-                                    if (currentPoints.isNotEmpty()) { // Or currentPoints.points if using MapAction
-                                        val drawn = drawPolygonOnMap(
-                                            style = style,
-                                            points = currentPoints, // Or currentPoints.points
-                                            sourceId = "test-polygon-source", // Use very distinct IDs for debugging
-                                            layerId = "test-polygon-layer"
-                                        )
-                                        Log.d("MapDebug", "drawPolygonOnMap returned: $drawn")
-
-                                        if (drawn) {
-                                            // Temporarily force camera to the polygon's bounds
-                                            val latLngBounds = LatLngBounds.Builder().includes(currentPoints).build() // Or currentPoints.points
-                                            maplibreMap.easeCamera(CameraUpdateFactory.newLatLngBounds(latLngBounds, 150), 1000) // 150px padding
-                                            Log.d("MapDebug", "Camera moved to polygon bounds: ${latLngBounds.center}")
-                                        }
-                                    } else {
-                                        Log.d("MapDebug", "No valid points to draw.")
-                                    }
                                 }
 
                                 is MapAction.AddMarker -> {
@@ -172,6 +153,7 @@ fun drawPolygonOnMap(
             fillColor("#80FF0000".toColorInt()),
             fillOpacity(0.5f)
         )
+        style.addLayer(fillLayer)
         Log.d("DrawFuncDebug", "FillLayer '$layerId' ADDED.")
         Log.d("MapViewModel", "Polygon drawn successfully")
         return true

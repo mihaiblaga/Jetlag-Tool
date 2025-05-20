@@ -63,5 +63,5 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation(libs.androidx.lifecycle.viewmodel.compose)
-//    implementation (libs.mapbox.android.plugin.annotation.v9)
+    implementation(libs.material3)
 }

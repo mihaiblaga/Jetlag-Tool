@@ -39,7 +39,7 @@ fun MainUI(
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomEnd),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.End,
         ) {
             Dashboard(
                 model = mapViewModel,
