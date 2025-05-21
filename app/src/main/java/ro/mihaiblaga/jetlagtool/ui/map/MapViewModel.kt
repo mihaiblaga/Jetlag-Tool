@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool
+package ro.mihaiblaga.jetlagtool.ui.map
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
+import ro.mihaiblaga.jetlagtool.actions.MapAction
 import ro.mihaiblaga.jetlagtool.ui.SelectionMode
 import java.util.UUID
 
@@ -106,9 +107,5 @@ class MapViewModel : ViewModel() {
 
     fun clearAllMapActions() {
         _mapActions.update { emptyList() }
-    }
-
-    fun isPointSelectionModeActive(): Boolean {
-        return _currentSelectionMode.value is SelectionMode.PointSelectionMode
     }
 }

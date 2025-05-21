@@ -17,8 +17,7 @@ import org.maplibre.android.camera.CameraUpdateFactory
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
 import ro.mihaiblaga.jetlagtool.BuildConfig
-import ro.mihaiblaga.jetlagtool.MapAction
-import ro.mihaiblaga.jetlagtool.MapViewModel
+import ro.mihaiblaga.jetlagtool.actions.MapAction
 import ro.mihaiblaga.jetlagtool.ui.SelectionMode
 import ro.mihaiblaga.jetlagtool.util.addMarkerToMap
 import ro.mihaiblaga.jetlagtool.util.clearMapFeatures

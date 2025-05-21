@@ -8,6 +8,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import org.maplibre.android.MapLibre
 import org.maplibre.android.WellKnownTileServer
 import ro.mihaiblaga.jetlagtool.ui.MainUI
+import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.theme.JetlagToolTheme
 
 class MainActivity : ComponentActivity() {

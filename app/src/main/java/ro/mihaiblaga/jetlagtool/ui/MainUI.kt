@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.maplibre.android.maps.MapLibreMap
-import ro.mihaiblaga.jetlagtool.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.dashboard.Dashboard
 import ro.mihaiblaga.jetlagtool.ui.map.MapLibreView
+import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
 
 
 @Composable
