@@ -25,7 +25,7 @@ fun TopBar(
 ) {
     TopAppBar(
         modifier = modifier
-            .padding(horizontal = 10.dp, vertical = 40.dp)
+            .padding(horizontal = 10.dp, vertical = 55.dp)
             .clip(RoundedCornerShape(100.dp)),
         scrollBehavior = scrollBehavior,
         windowInsets = WindowInsets(top = 0.dp),

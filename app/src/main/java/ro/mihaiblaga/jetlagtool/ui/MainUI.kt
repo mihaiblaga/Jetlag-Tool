@@ -1,12 +1,10 @@
 package ro.mihaiblaga.jetlagtool.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -17,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.maplibre.android.maps.MapLibreMap
-import ro.mihaiblaga.jetlagtool.ui.dashboard.Dashboard
+import ro.mihaiblaga.jetlagtool.ui.bottombar.BottomBar
 import ro.mihaiblaga.jetlagtool.ui.map.MapLibreView
 import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.topbar.TopBar
@@ -29,37 +27,34 @@ fun MainUI(
     modifier: Modifier = Modifier,
 ) {
     var mapLibreInstance by remember { mutableStateOf<MapLibreMap?>(null) }
-    val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(
-        state = rememberTopAppBarState()
-    )
 
-    val scaffoldState = rememberBottomSheetScaffoldState()
+    val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    MapLibreView(
-        model = mapViewModel,
-        modifier = modifier
-            .fillMaxHeight(),
-        onMapReady = { mapLibreMap ->
-            mapLibreInstance = mapLibreMap
-        })
-
-    BottomSheetScaffold(
-        modifier = modifier
-            .fillMaxHeight(),
-        scaffoldState = scaffoldState,
-        sheetContent = {
-            Box() {
-                Dashboard(
-                    model = mapViewModel
-                )
-            }
-        },
+    Scaffold(
+        modifier = modifier,
         topBar = {
-            TopBar(scrollBehavior = scrollBehavior)
+            TopBar(
+                modifier = modifier,
+                scrollBehavior = scrollBehavior,
+            )
         },
+        bottomBar = {
+            BottomBar(
+                modifier = modifier,
+                model = mapViewModel
+            )
+        }
     ) { innerPadding ->
-
+        MapLibreView(
+            model = mapViewModel,
+            modifier = modifier
+                .consumeWindowInsets(innerPadding),
+            onMapReady = { mapLibreMap ->
+                mapLibreInstance = mapLibreMap
+            })
     }
+
+
 }
 
 @Preview

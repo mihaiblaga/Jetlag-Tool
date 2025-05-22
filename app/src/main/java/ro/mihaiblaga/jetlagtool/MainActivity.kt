@@ -4,6 +4,8 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.maplibre.android.MapLibre
@@ -21,15 +23,23 @@ class MainActivity : ComponentActivity() {
             WellKnownTileServer.MapTiler,
         )
         super.onCreate(savedInstanceState)
+
         enableEdgeToEdge()
 
         setContent {
             JetlagToolTheme {
                 val viewModel = viewModel<MapViewModel>()
-                MainUI(
-                    mapViewModel = viewModel,
-                    modifier = Modifier
-                )
+
+                Scaffold(
+                    modifier = Modifier,
+                ) { innerPadding ->
+                    MainUI(
+                        mapViewModel = viewModel,
+                        modifier = Modifier
+                            .consumeWindowInsets(innerPadding)
+                    )
+                }
+
 
             }
         }
