@@ -48,13 +48,11 @@ fun MapLibreView(
 
     val mapClickListener = remember {
         MapLibreMap.OnMapClickListener { point ->
-            if (currentSelectionMode is SelectionMode.PointSelectionMode) {
                 Log.d("MapViewModel", "Map clicked at: $point")
                 model.addPoint(point)
                 if (model.selectedPoints.value.size >= 3) {
                     model.requestPolygonDraw(model.selectedPoints.value)
                 }
-            }
             true
         }
     }
@@ -96,11 +94,13 @@ fun MapLibreView(
             )
             currentMapView.getMapAsync { maplibreMap ->
                 if (currentSelectionMode is SelectionMode.PointSelectionMode) {
+                    maplibreMap.removeOnMapClickListener(mapClickListener)
+                    Log.d("MapView", "Trying to remove MapClickListener before adding")
                     maplibreMap.addOnMapClickListener(mapClickListener)
-                    Log.d("MapViewModel", "MapClickListener added")
+                    Log.d("MapView", "MapClickListener added")
                 } else {
                     maplibreMap.removeOnMapClickListener(mapClickListener)
-                    Log.d("MapViewModel", "MapClickListener removed")
+                    Log.d("MapView", "MapClickListener removed")
                 }
                 maplibreMap.getStyle { style ->
                     val processedActions = mutableListOf<MapAction>()

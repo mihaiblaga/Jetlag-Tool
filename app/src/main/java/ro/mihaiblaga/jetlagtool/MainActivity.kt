@@ -3,6 +3,7 @@ package ro.mihaiblaga.jetlagtool
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.enableEdgeToEdge
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.maplibre.android.MapLibre
@@ -20,6 +21,7 @@ class MainActivity : ComponentActivity() {
             WellKnownTileServer.MapTiler,
         )
         super.onCreate(savedInstanceState)
+        enableEdgeToEdge()
 
         setContent {
             JetlagToolTheme {
