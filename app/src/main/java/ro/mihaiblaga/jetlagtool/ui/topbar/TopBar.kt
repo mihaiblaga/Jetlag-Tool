@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -15,13 +16,16 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import ro.mihaiblaga.jetlagtool.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun TopBar(
     modifier: Modifier = Modifier,
     scrollBehavior: TopAppBarScrollBehavior,
+    onNavigationIconClicked: () -> Unit
 ) {
     TopAppBar(
         modifier = modifier
@@ -31,21 +35,28 @@ fun TopBar(
         windowInsets = WindowInsets(top = 0.dp),
         colors = TopAppBarDefaults.topAppBarColors(
 
-            containerColor = MaterialTheme.colorScheme.background.copy(alpha = 0.5f)
+            titleContentColor = MaterialTheme.colorScheme.onPrimary,
+            navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
+            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
         ),
+
         title = {
             Text(
-                text = "Jetlag Tool",
-                color = MaterialTheme.colorScheme.onBackground
+                text = stringResource(id = R.string.app_name),
             )
         },
         navigationIcon = {
-            Icon(
-                imageVector = Icons.Filled.Menu,
-                contentDescription = "Menu",
-                modifier = Modifier
-                    .padding(start = 16.dp, end = 8.dp)
-            )
+            IconButton(
+                onClick = onNavigationIconClicked,
+            ) {
+                Icon(
+                    imageVector = Icons.Filled.Menu,
+                    contentDescription = "Menu",
+                    modifier = Modifier
+                        .padding(start = 8.dp, end = 4.dp)
+                )
+            }
+
         }
 
     )
