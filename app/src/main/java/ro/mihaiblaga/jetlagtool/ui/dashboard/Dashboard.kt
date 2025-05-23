@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import ro.mihaiblaga.jetlagtool.ui.SelectionMode
+import ro.mihaiblaga.jetlagtool.models.SelectionMode
 import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
 
 @Composable
@@ -65,9 +65,9 @@ fun Dashboard(
                         checked = it
                         Log.d("ToggleButton", "Toggle Selection Mode BUTTON CLICKED")
                         if (selectionMode is SelectionMode.PointSelectionMode) {
-                            model.setSelectionMode(SelectionMode.RegularSelectionMode())
+                            model.setSelectionMode(SelectionMode.RegularSelectionMode)
                         } else {
-                            model.setSelectionMode(SelectionMode.PointSelectionMode())
+                            model.setSelectionMode(SelectionMode.PointSelectionMode)
                         }
                     }
                 )

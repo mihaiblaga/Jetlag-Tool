@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.ui
+package ro.mihaiblaga.jetlagtool.ui.home
 
 import android.util.Log
 import androidx.compose.foundation.layout.consumeWindowInsets

@@ -8,8 +8,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
-import ro.mihaiblaga.jetlagtool.actions.MapAction
-import ro.mihaiblaga.jetlagtool.ui.SelectionMode
+import ro.mihaiblaga.jetlagtool.models.actions.MapAction
+import ro.mihaiblaga.jetlagtool.models.SelectionMode
 import java.util.UUID
 
 class MapViewModel : ViewModel() {
@@ -23,7 +23,7 @@ class MapViewModel : ViewModel() {
     val mapActions: StateFlow<List<MapAction>> = _mapActions.asStateFlow()
 
     private val _currentSelectionMode =
-        MutableStateFlow<SelectionMode>(SelectionMode.RegularSelectionMode())
+        MutableStateFlow<SelectionMode>(SelectionMode.RegularSelectionMode)
 
     val currentSelectionMode: StateFlow<SelectionMode> = _currentSelectionMode.asStateFlow()
 

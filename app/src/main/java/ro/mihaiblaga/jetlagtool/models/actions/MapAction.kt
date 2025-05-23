@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.actions
+package ro.mihaiblaga.jetlagtool.models.actions
 
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
