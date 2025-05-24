@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.lifecycle.viewmodel.compose.viewModel
 import org.maplibre.android.MapLibre
 import org.maplibre.android.WellKnownTileServer
-import ro.mihaiblaga.jetlagtool.ui.home.MainUI
+import ro.mihaiblaga.jetlagtool.ui.home.HomeView
 import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.theme.JetlagToolTheme
 
@@ -33,7 +33,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier,
                 ) { innerPadding ->
-                    MainUI(
+                    HomeView(
                         mapViewModel = viewModel,
                         modifier = Modifier
                             .consumeWindowInsets(innerPadding)

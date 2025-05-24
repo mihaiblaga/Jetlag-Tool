@@ -81,7 +81,7 @@ fun BottomBar(
                         Icon(Icons.Filled.Edit, "Edit")
                     }
                     FloatingActionButton(
-                        onClick = { /* TODO: Action for Call */ },
+                        onClick = { model.drawFeatures() },
                         shape = CircleShape
                     ) {
                         Icon(Icons.Filled.Call, "Call")

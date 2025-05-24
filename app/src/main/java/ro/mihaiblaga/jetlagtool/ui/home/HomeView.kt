@@ -30,7 +30,7 @@ import ro.mihaiblaga.jetlagtool.ui.topbar.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainUI(
+fun HomeView(
     mapViewModel: MapViewModel,
     modifier: Modifier = Modifier,
 ) {
@@ -89,9 +89,9 @@ fun MainUI(
 
 @Preview
 @Composable
-fun MainUIPreview() {
+fun HomeViewPreview() {
     val sampleMapModel = viewModel<MapViewModel>()
-    MainUI(
+    HomeView(
         mapViewModel = sampleMapModel,
         modifier = Modifier
             .fillMaxSize()

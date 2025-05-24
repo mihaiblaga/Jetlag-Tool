@@ -3,8 +3,8 @@ package ro.mihaiblaga.jetlagtool.models
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class  GeoJsonFeature(
+data class GeoJsonGeometry(
     val type: String,
-    val properties: Map<String, String>,
-    val geometry: GeoJsonGeometry
+    val coordinates: List<List<List<Double>>>
+
 )
