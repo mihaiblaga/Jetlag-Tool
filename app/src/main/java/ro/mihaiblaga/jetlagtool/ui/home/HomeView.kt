@@ -2,7 +2,9 @@ package ro.mihaiblaga.jetlagtool.ui.home
 
 import android.util.Log
 import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.ModalDrawerSheet
@@ -42,12 +44,15 @@ fun HomeView(
 
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
     ModalNavigationDrawer(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier,
         drawerState = drawerState,
         gesturesEnabled = drawerState.isOpen,
         drawerContent = {
-            ModalDrawerSheet() {
+            ModalDrawerSheet(
+                modifier = Modifier
+                    .fillMaxWidth(0.9f)
+                    .fillMaxHeight(),
+            ) {
                 Text("Drawer")
             }
         }

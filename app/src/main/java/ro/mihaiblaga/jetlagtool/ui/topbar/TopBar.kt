@@ -8,17 +8,16 @@ import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import ro.mihaiblaga.jetlagtool.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,23 +36,20 @@ fun TopBar(
 
             titleContentColor = MaterialTheme.colorScheme.onPrimary,
             navigationIconContentColor = MaterialTheme.colorScheme.onPrimary,
-            containerColor = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f)
+            containerColor = Color.Transparent
         ),
 
-        title = {
-            Text(
-                text = stringResource(id = R.string.app_name),
-            )
-        },
+        title = {},
         navigationIcon = {
             IconButton(
+                colors = IconButtonDefaults.iconButtonColors(containerColor = MaterialTheme.colorScheme.primary),
                 onClick = onNavigationIconClicked,
             ) {
                 Icon(
                     imageVector = Icons.Filled.Menu,
                     contentDescription = "Menu",
                     modifier = Modifier
-                        .padding(start = 8.dp, end = 4.dp)
+                        .padding(start =4.dp, end = 4.dp)
                 )
             }
 
