@@ -1,9 +1,9 @@
 package ro.mihaiblaga.jetlagtool.data.repository.geojson
 
-import ro.mihaiblaga.jetlagtool.models.GeoJsonFeature
+import org.maplibre.geojson.Feature
 
 interface GeoJsonFeatureRepository {
 
-    fun getFeatures(): List<GeoJsonFeature>
+    fun getFeatures(): List<Feature>?
 
 }

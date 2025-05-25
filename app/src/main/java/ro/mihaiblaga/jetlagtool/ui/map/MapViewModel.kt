@@ -9,6 +9,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
+import org.maplibre.geojson.Feature
+import org.maplibre.geojson.Point
+import org.maplibre.geojson.Polygon
 import ro.mihaiblaga.jetlagtool.data.repository.geojson.FileGeoJsonFeatureRepositoryImpl
 import ro.mihaiblaga.jetlagtool.models.SelectionMode
 import ro.mihaiblaga.jetlagtool.models.actions.MapAction
@@ -75,26 +78,21 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun requestPolygonDraw(
-        points: List<LatLng>,
+        feature: Feature,
         sourceId: String = "polygon-source-${UUID.randomUUID()}",
         layerId: String = "polygon-layer-${UUID.randomUUID()}"
     ) {
         _mapActions.update { currentActions ->
-            currentActions + MapAction.DrawPolygon(points, sourceId, layerId)
+            currentActions + MapAction.DrawFeature(feature, sourceId, layerId)
         }
     }
 
     fun drawFeatures() {
         val features = geoJsonRepository.getFeatures()
-        for (feature in features) {
-            val geometry = feature.geometry
-            val coordinates = geometry.coordinates[0]
-            val points = mutableListOf<LatLng>()
-            for (coordinate in coordinates) {
-                val point = LatLng(coordinate[1], coordinate[0])
-                points.add(point)
+        if (features != null) {
+            for (feature in features) {
+                requestPolygonDraw(feature)
             }
-            requestPolygonDraw(points)
         }
     }
 
@@ -107,6 +105,23 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
             )
         }
         Log.d("MapViewModel", "Point added to polygon: $latLng")
+    }
+
+    fun featureFromPoints(points: List<LatLng>): Feature {
+        val polygonCoordinates = mutableListOf<List<Point>>()
+        val exteriorRing = mutableListOf<Point>()
+
+        for (point in points) {
+            exteriorRing.add(Point.fromLngLat(point.longitude, point.latitude))
+        }
+        if (exteriorRing.isNotEmpty() && exteriorRing.first() != exteriorRing.last()) {
+            exteriorRing.add(exteriorRing.first())
+        }
+
+        polygonCoordinates.add(exteriorRing)
+        val polygonGeometry = Polygon.fromLngLats(polygonCoordinates)
+        val feature = Feature.fromGeometry(polygonGeometry)
+        return feature
     }
 
     fun clearSelectedPoints() {

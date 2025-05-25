@@ -2,12 +2,13 @@ package ro.mihaiblaga.jetlagtool.models.actions
 
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
+import org.maplibre.geojson.Feature
 
 sealed class MapAction {
     data class AnimateCamera(val position: CameraPosition) : MapAction()
 
-    data class DrawPolygon(
-        val points: List<LatLng>,
+    data class DrawFeature(
+        val feature: Feature,
         val sourceId: String,
         val layerId: String
     ) : MapAction()

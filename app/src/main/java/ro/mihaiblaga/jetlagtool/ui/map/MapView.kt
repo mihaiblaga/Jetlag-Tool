@@ -21,7 +21,7 @@ import ro.mihaiblaga.jetlagtool.models.actions.MapAction
 import ro.mihaiblaga.jetlagtool.models.SelectionMode
 import ro.mihaiblaga.jetlagtool.util.addMarkerToMap
 import ro.mihaiblaga.jetlagtool.util.clearMapFeatures
-import ro.mihaiblaga.jetlagtool.util.drawPolygonOnMap
+import ro.mihaiblaga.jetlagtool.util.drawPolygon
 
 @Composable
 fun MapLibreView(
@@ -51,7 +51,7 @@ fun MapLibreView(
                 Log.d("MapViewModel", "Map clicked at: $point")
                 model.addPoint(point)
                 if (model.selectedPoints.value.size >= 3) {
-                    model.requestPolygonDraw(model.selectedPoints.value)
+                    model.requestPolygonDraw(model.featureFromPoints(model.selectedPoints.value))
                 }
             true
         }
@@ -115,16 +115,16 @@ fun MapLibreView(
                                 )
                             }
 
-                            is MapAction.DrawPolygon -> {
+                            is MapAction.DrawFeature -> {
                                 Log.d("MapViewModel", "Received action: $action")
-                                val currentPoints = action.points
+                                val currentPoints = action.feature
                                 Log.d(
                                     "MapDebug",
                                     "Attempting to draw polygon. Points: $currentPoints"
                                 )
-                                drawPolygonOnMap(
+                                drawPolygon(
                                     style,
-                                    action.points,
+                                    action.feature,
                                     action.sourceId,
                                     action.layerId
                                 )

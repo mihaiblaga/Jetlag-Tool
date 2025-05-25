@@ -7,59 +7,59 @@ import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.Style
 import org.maplibre.android.style.layers.CircleLayer
 import org.maplibre.android.style.layers.FillLayer
+import org.maplibre.android.style.layers.LineLayer
 import org.maplibre.android.style.layers.PropertyFactory
 import org.maplibre.android.style.layers.PropertyFactory.fillColor
 import org.maplibre.android.style.layers.PropertyFactory.fillOpacity
+import org.maplibre.android.style.layers.PropertyFactory.lineColor
+import org.maplibre.android.style.layers.PropertyFactory.lineOpacity
+import org.maplibre.android.style.layers.PropertyFactory.lineWidth
 import org.maplibre.android.style.sources.GeoJsonSource
 import org.maplibre.geojson.Feature
+import org.maplibre.geojson.LineString
 import org.maplibre.geojson.Point
 import org.maplibre.geojson.Polygon
 
 const val MARKER_SOURCE_ID_PREFIX = "marker-source-"
 const val MARKER_LAYER_ID_PREFIX = "marker-layer-"
 
-fun drawPolygonOnMap(
+fun drawPolygon(
     style: Style,
-    points: List<LatLng?>,
+    feature: Feature,
     sourceId: String = "",
     layerId: String = ""
 ): Boolean {
     Log.d(
         "MapDrawingUtils",
-        "Function called. SourceID: $sourceId, LayerID: $layerId, Points: $points"
+        "Function called. SourceID: $sourceId, LayerID: $layerId, Feature: $feature"
     )
 
-    if (points.isEmpty()) {
-        Log.w("MapDrawingUtils", "Not enough points. Removing old layers if any.")
-        style.removeSource(sourceId)
-        style.removeLayer(layerId)
+    val lineGeometry = try {
+        val geometry = feature.geometry()
+        if (geometry is Polygon) {
+            LineString.fromLngLats(geometry.coordinates()[0])
+        } else {
+            Log.w("MapDrawingUtils", "Invalid geometry type. Not drawing line.")
+            return false
+        }
+    } catch (e: IllegalStateException){
+        Log.e("MapDrawingUtils", "Error creating LineString geometry", e)
         return false
     }
-    val polygonCoordinates = mutableListOf<List<Point>>()
-    val exteriorRing = mutableListOf<Point>()
 
-    for (point in points) {
-        exteriorRing.add(Point.fromLngLat(point!!.longitude, point.latitude))
-    }
-    Log.d("MapDrawingUtils", "Exterior ring (GeoJSON points): $exteriorRing")
-    if (exteriorRing.isNotEmpty() && exteriorRing.first() != exteriorRing.last()) {
-        exteriorRing.add(exteriorRing.first())
-        Log.d("MapDrawingUtils", "Closed the ring.")
-    }
-    polygonCoordinates.add(exteriorRing)
-    val polygonGeometry = try {
-        Polygon.fromLngLats(polygonCoordinates)
-    } catch (e: IllegalStateException) {
-        Log.e("MapDrawingUtils", "Error creating polygon geometry", e)
-        return false
-    }
-    Log.d("MapDrawingUtils", "Polygon Geometry created: ${polygonGeometry.toJson()}")
+    val lineFeature = Feature.fromGeometry(lineGeometry)
+
+    Log.d("MapDrawingUtils", "Polygon Geometry created: ${feature.geometry()}")
     style.removeSource(sourceId)
     style.removeLayer(layerId)
+    style.removeSource("${sourceId}-line")
+    style.removeLayer("${layerId}-line")
 
     try {
-        val geoJsonSource = GeoJsonSource(sourceId, polygonGeometry)
+        val geoJsonSource = GeoJsonSource(sourceId, feature)
+        val lineSource = GeoJsonSource("${sourceId}-line", lineFeature)
         style.addSource(geoJsonSource)
+        style.addSource(lineSource)
         Log.d("MapDrawingUtils", "GeoJsonSource '$sourceId' ADDED.")
 
         val fillLayer = FillLayer(layerId, sourceId)
@@ -67,7 +67,14 @@ fun drawPolygonOnMap(
             fillColor("#80FF0000".toColorInt()),
             fillOpacity(0.5f)
         )
+        val lineFillLayer = LineLayer("${layerId}-line", "${sourceId}-line")
+        lineFillLayer.setProperties(
+            lineColor("#000FF0".toColorInt()),
+            lineWidth(3f),
+            lineOpacity(1f)
+        )
         style.addLayer(fillLayer)
+        style.addLayer(lineFillLayer)
         Log.d("MapDrawingUtils", "FillLayer '$layerId' ADDED.")
         Log.d("MapDrawingUtils", "Polygon drawn successfully")
         return true
