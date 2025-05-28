@@ -1,8 +1,8 @@
 package ro.mihaiblaga.jetlagtool
 
 import android.app.Application
-import ro.mihaiblaga.jetlagtool.di.AppModule
-import ro.mihaiblaga.jetlagtool.di.AppModuleImpl
+import ro.mihaiblaga.jetlagtool.core.di.AppModule
+import ro.mihaiblaga.jetlagtool.core.di.AppModuleImpl
 
 class JetlagTool : Application() {
     lateinit var appModule: AppModule

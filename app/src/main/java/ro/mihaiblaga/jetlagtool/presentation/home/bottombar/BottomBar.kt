@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.ui.bottombar
+package ro.mihaiblaga.jetlagtool.presentation.home.bottombar
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.scaleIn

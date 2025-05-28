@@ -9,9 +9,9 @@ import ro.mihaiblaga.jetlagtool.data.model.BorderGeometry
 @Dao
 interface BorderGeometryDao {
     @Insert
-    suspend fun insert(borderGeometry: BorderGeometry): Long
+    fun insert(borderGeometry: BorderGeometry): Long
 
     @Query("SELECT * FROM ${DatabaseSchema.TABLE_BORDER_GEOMETRY} WHERE id = :id")
-    suspend fun getBorderGeometryById(id: Long): BorderGeometry?
+    fun getBorderGeometryById(id: Long): BorderGeometry?
 
 }

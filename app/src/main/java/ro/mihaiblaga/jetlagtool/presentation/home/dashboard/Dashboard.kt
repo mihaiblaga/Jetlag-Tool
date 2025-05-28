@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.ui.dashboard
+package ro.mihaiblaga.jetlagtool.presentation.home.dashboard
 
 import android.util.Log
 import androidx.compose.foundation.layout.Box
@@ -23,7 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ro.mihaiblaga.jetlagtool.data.repository.FakeGeoJsonFeatureRepository
-import ro.mihaiblaga.jetlagtool.models.SelectionMode
+import ro.mihaiblaga.jetlagtool.domain.model.SelectionMode
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
 

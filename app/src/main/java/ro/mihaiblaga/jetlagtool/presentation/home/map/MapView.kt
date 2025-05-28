@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.ui.map
+package ro.mihaiblaga.jetlagtool.presentation.home.map
 
 
 import android.util.Log
@@ -17,8 +17,8 @@ import org.maplibre.android.camera.CameraUpdateFactory
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
 import ro.mihaiblaga.jetlagtool.BuildConfig
-import ro.mihaiblaga.jetlagtool.models.SelectionMode
-import ro.mihaiblaga.jetlagtool.models.actions.MapAction
+import ro.mihaiblaga.jetlagtool.domain.model.SelectionMode
+import ro.mihaiblaga.jetlagtool.domain.model.actions.MapAction
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 import ro.mihaiblaga.jetlagtool.util.addMarkerToMap
 import ro.mihaiblaga.jetlagtool.util.clearMapFeatures

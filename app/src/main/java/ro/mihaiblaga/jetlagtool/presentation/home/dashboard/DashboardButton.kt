@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.ui.dashboard
+package ro.mihaiblaga.jetlagtool.presentation.home.dashboard
 
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.padding

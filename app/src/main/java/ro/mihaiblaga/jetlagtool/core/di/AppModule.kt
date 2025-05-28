@@ -1,7 +1,6 @@
-package ro.mihaiblaga.jetlagtool.di
+package ro.mihaiblaga.jetlagtool.core.di
 
 import android.content.Context
-import androidx.room.Room
 import org.maplibre.android.MapLibre
 import org.maplibre.android.WellKnownTileServer
 import ro.mihaiblaga.jetlagtool.BuildConfig
@@ -29,11 +28,7 @@ class AppModuleImpl(
         WellKnownTileServer.MapTiler,
     )
     override val database: AppDatabase by lazy {
-        Room.databaseBuilder(
-            appContext,
-            AppDatabase::class.java,
-            "jetlag.db"
-        ).build()
+        AppDatabase.getInstance(appContext)
     }
 
     override val geoJsonFeatureRepository: GeoJsonFeatureRepository =

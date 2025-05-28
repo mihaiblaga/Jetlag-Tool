@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.ui.home
+package ro.mihaiblaga.jetlagtool.presentation.home
 
 import Sidebar
 import android.util.Log
@@ -24,9 +24,9 @@ import org.maplibre.android.maps.MapLibreMap
 import ro.mihaiblaga.jetlagtool.data.repository.FakeGeoJsonFeatureRepository
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
-import ro.mihaiblaga.jetlagtool.ui.bottombar.BottomBar
-import ro.mihaiblaga.jetlagtool.ui.map.MapLibreView
-import ro.mihaiblaga.jetlagtool.ui.topbar.TopBar
+import ro.mihaiblaga.jetlagtool.presentation.home.bottombar.BottomBar
+import ro.mihaiblaga.jetlagtool.presentation.home.map.MapLibreView
+import ro.mihaiblaga.jetlagtool.presentation.home.topbar.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -48,6 +48,7 @@ fun HomeView(
         drawerContent = {
             Sidebar(
                 modifier = modifier,
+                state = mapViewModel.sidebarState,
                 onCloseButtonClicked = {
                     scope.launch {
                         drawerState.close()

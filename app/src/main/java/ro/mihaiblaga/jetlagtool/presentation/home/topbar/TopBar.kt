@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.ui.topbar
+package ro.mihaiblaga.jetlagtool.presentation.home.topbar
 
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding

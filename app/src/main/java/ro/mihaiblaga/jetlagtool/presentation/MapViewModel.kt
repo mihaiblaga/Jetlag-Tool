@@ -12,13 +12,18 @@ import org.maplibre.geojson.Feature
 import org.maplibre.geojson.Point
 import org.maplibre.geojson.Polygon
 import ro.mihaiblaga.jetlagtool.domain.geojson.GeoJsonFeatureRepository
-import ro.mihaiblaga.jetlagtool.models.SelectionMode
-import ro.mihaiblaga.jetlagtool.models.actions.MapAction
+import ro.mihaiblaga.jetlagtool.domain.model.SelectionMode
+import ro.mihaiblaga.jetlagtool.domain.model.actions.MapAction
+import ro.mihaiblaga.jetlagtool.presentation.sidebar.SidebarState
 import java.util.UUID
 
 class MapViewModel(
     private val geoJsonFeatureRepository: GeoJsonFeatureRepository
 ) : ViewModel() {
+
+    private val _sidebarState = MutableStateFlow(SidebarState(items = emptyList()))
+
+    val sidebarState: StateFlow<SidebarState> = _sidebarState.asStateFlow()
 
     private val _mapActions = MutableStateFlow<List<MapAction>>(emptyList())
 
