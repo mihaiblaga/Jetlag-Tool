@@ -19,10 +19,11 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.maplibre.android.maps.MapLibreMap
+import ro.mihaiblaga.jetlagtool.data.repository.FakeGeoJsonFeatureRepository
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
+import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
 import ro.mihaiblaga.jetlagtool.ui.bottombar.BottomBar
 import ro.mihaiblaga.jetlagtool.ui.map.MapLibreView
 import ro.mihaiblaga.jetlagtool.ui.topbar.TopBar
@@ -93,7 +94,7 @@ fun HomeView(
 @Preview
 @Composable
 fun HomeViewPreview() {
-    val sampleMapModel = viewModel<MapViewModel>()
+    val sampleMapModel = MapViewModelFactory(FakeGeoJsonFeatureRepository()).create()
     HomeView(
         mapViewModel = sampleMapModel,
         modifier = Modifier

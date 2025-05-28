@@ -31,8 +31,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
+import ro.mihaiblaga.jetlagtool.data.repository.FakeGeoJsonFeatureRepository
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
+import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
 
 @Composable
 fun BottomBar(
@@ -116,7 +117,7 @@ fun BottomBar(
 @Composable
 @Preview
 fun BottomBarPreview() {
-    val sampleMapModel = viewModel<MapViewModel>()
+    val sampleMapModel = MapViewModelFactory(FakeGeoJsonFeatureRepository()).create()
     BottomBar(
         model = sampleMapModel
     )

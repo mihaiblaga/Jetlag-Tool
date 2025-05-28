@@ -1,6 +1,7 @@
 package ro.mihaiblaga.jetlagtool.di
 
 import android.content.Context
+import androidx.room.Room
 import org.maplibre.android.MapLibre
 import org.maplibre.android.WellKnownTileServer
 import ro.mihaiblaga.jetlagtool.BuildConfig
@@ -27,7 +28,13 @@ class AppModuleImpl(
         mapLibreApiKey,
         WellKnownTileServer.MapTiler,
     )
-    override val database: AppDatabase = TODO("Not yet implemented")
+    override val database: AppDatabase by lazy {
+        Room.databaseBuilder(
+            appContext,
+            AppDatabase::class.java,
+            "jetlag.db"
+        ).build()
+    }
 
     override val geoJsonFeatureRepository: GeoJsonFeatureRepository =
         FileGeoJsonFeatureRepositoryImpl(appContext)
