@@ -7,34 +7,29 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import androidx.lifecycle.viewmodel.compose.viewModel
-import org.maplibre.android.MapLibre
-import org.maplibre.android.WellKnownTileServer
+import ro.mihaiblaga.jetlagtool.di.AppModule
 import ro.mihaiblaga.jetlagtool.ui.home.HomeView
-import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.theme.JetlagToolTheme
 
 class MainActivity : ComponentActivity() {
+
+    private lateinit var appModule: AppModule
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        val mapLibreApiKey = BuildConfig.MAPLIBRE_ACCESS_TOKEN
-        MapLibre.getInstance(
-            this,
-            mapLibreApiKey,
-            WellKnownTileServer.MapTiler,
-        )
         super.onCreate(savedInstanceState)
+
+        appModule = (application as JetlagTool).appModule
 
         enableEdgeToEdge()
 
         setContent {
             JetlagToolTheme {
-                val viewModel = viewModel<MapViewModel>()
 
                 Scaffold(
                     modifier = Modifier,
                 ) { innerPadding ->
                     HomeView(
-                        mapViewModel = viewModel,
+                        mapViewModel = appModule.mapViewModel,
                         modifier = Modifier
                             .consumeWindowInsets(innerPadding)
                     )

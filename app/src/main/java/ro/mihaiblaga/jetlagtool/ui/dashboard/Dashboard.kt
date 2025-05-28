@@ -24,7 +24,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import ro.mihaiblaga.jetlagtool.models.SelectionMode
-import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
+import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 
 @Composable
 fun Dashboard(

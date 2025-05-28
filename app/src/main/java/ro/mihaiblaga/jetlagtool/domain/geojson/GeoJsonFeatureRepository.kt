@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.data.repository.geojson
+package ro.mihaiblaga.jetlagtool.domain.geojson
 
 import org.maplibre.geojson.Feature
 

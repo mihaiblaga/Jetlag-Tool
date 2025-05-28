@@ -17,8 +17,9 @@ import org.maplibre.android.camera.CameraUpdateFactory
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
 import ro.mihaiblaga.jetlagtool.BuildConfig
-import ro.mihaiblaga.jetlagtool.models.actions.MapAction
 import ro.mihaiblaga.jetlagtool.models.SelectionMode
+import ro.mihaiblaga.jetlagtool.models.actions.MapAction
+import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 import ro.mihaiblaga.jetlagtool.util.addMarkerToMap
 import ro.mihaiblaga.jetlagtool.util.clearMapFeatures
 import ro.mihaiblaga.jetlagtool.util.drawPolygon
@@ -48,11 +49,11 @@ fun MapLibreView(
 
     val mapClickListener = remember {
         MapLibreMap.OnMapClickListener { point ->
-                Log.d("MapViewModel", "Map clicked at: $point")
-                model.addPoint(point)
-                if (model.selectedPoints.value.size >= 3) {
-                    model.requestPolygonDraw(model.featureFromPoints(model.selectedPoints.value))
-                }
+            Log.d("MapViewModel", "Map clicked at: $point")
+            model.addPoint(point)
+            if (model.selectedPoints.value.size >= 3) {
+                model.requestPolygonDraw(model.featureFromPoints(model.selectedPoints.value))
+            }
             true
         }
     }

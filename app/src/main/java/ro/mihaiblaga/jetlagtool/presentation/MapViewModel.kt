@@ -1,8 +1,7 @@
-package ro.mihaiblaga.jetlagtool.ui.map
+package ro.mihaiblaga.jetlagtool.presentation
 
-import android.app.Application
 import android.util.Log
-import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.ViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -12,35 +11,14 @@ import org.maplibre.android.geometry.LatLng
 import org.maplibre.geojson.Feature
 import org.maplibre.geojson.Point
 import org.maplibre.geojson.Polygon
-import ro.mihaiblaga.jetlagtool.data.repository.geojson.FileGeoJsonFeatureRepositoryImpl
+import ro.mihaiblaga.jetlagtool.domain.geojson.GeoJsonFeatureRepository
 import ro.mihaiblaga.jetlagtool.models.SelectionMode
 import ro.mihaiblaga.jetlagtool.models.actions.MapAction
-import java.io.IOException
 import java.util.UUID
 
-class MapViewModel(application: Application) : AndroidViewModel(application) {
-
-    private val geoJsonRepository = FileGeoJsonFeatureRepositoryImpl()
-
-    private val filePath = "cluj-regions-2016.geojson"
-
-    init {
-        Log.d("MapViewModel", "INSTANCE CREATED.")
-        loadGeoJsonData()
-    }
-
-    private fun loadGeoJsonData() {
-        try {
-            val context = getApplication<Application>().applicationContext
-            val jsonString = context.assets.open(filePath).bufferedReader().use { it.readText() }
-            geoJsonRepository.loadFromJson(jsonString)
-            Log.d("MapViewModel", "Successfully loaded GeoJSON from $filePath")
-        } catch (e: IOException) {
-            Log.e("MapViewModel", "Error reading GeoJSON file $filePath from assets", e)
-        } catch (e: Exception) {
-            Log.e("MapViewModel", "Error processing GeoJSON data from $filePath", e)
-        }
-    }
+class MapViewModel(
+    private val geoJsonFeatureRepository: GeoJsonFeatureRepository
+) : ViewModel() {
 
     private val _mapActions = MutableStateFlow<List<MapAction>>(emptyList())
 
@@ -88,7 +66,7 @@ class MapViewModel(application: Application) : AndroidViewModel(application) {
     }
 
     fun drawFeatures() {
-        val features = geoJsonRepository.getFeatures()
+        val features = geoJsonFeatureRepository.getFeatures()
         if (features != null) {
             for (feature in features) {
                 requestPolygonDraw(feature)

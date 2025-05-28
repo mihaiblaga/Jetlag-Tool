@@ -22,9 +22,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.lifecycle.viewmodel.compose.viewModel
 import kotlinx.coroutines.launch
 import org.maplibre.android.maps.MapLibreMap
+import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.bottombar.BottomBar
 import ro.mihaiblaga.jetlagtool.ui.map.MapLibreView
-import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
 import ro.mihaiblaga.jetlagtool.ui.topbar.TopBar
 
 @OptIn(ExperimentalMaterial3Api::class)

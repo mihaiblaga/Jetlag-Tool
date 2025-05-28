@@ -32,7 +32,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
-import ro.mihaiblaga.jetlagtool.ui.map.MapViewModel
+import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 
 @Composable
 fun BottomBar(
