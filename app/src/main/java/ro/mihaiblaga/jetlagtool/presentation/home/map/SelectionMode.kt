@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.domain.model
+package ro.mihaiblaga.jetlagtool.presentation.home.map
 
 sealed class SelectionMode {
     data object RegularSelectionMode : SelectionMode()

@@ -2,5 +2,5 @@ package ro.mihaiblaga.jetlagtool.data.local
 
 object DatabaseSchema {
     const val TABLE_ADMINISTRATIVE_DIVISION = "administrative_division"
-    const val TABLE_BORDER_GEOMETRY = "border_geometry"
+    const val TABLE_FEATURE = "feature"
 }

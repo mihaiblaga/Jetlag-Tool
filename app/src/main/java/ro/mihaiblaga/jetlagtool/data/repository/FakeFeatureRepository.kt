@@ -1,9 +1,9 @@
 package ro.mihaiblaga.jetlagtool.data.repository
 
 import org.maplibre.geojson.Feature
-import ro.mihaiblaga.jetlagtool.domain.geojson.GeoJsonFeatureRepository
+import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
 
-class FakeGeoJsonFeatureRepository : GeoJsonFeatureRepository {
+class FakeFeatureRepository : FeatureRepository {
     override fun getFeatures(): List<Feature>? {
         TODO("Not yet implemented")
     }

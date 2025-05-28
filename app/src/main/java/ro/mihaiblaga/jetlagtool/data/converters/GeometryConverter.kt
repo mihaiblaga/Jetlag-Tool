@@ -6,17 +6,17 @@ import org.maplibre.geojson.LineString
 import org.maplibre.geojson.MultiPolygon
 import org.maplibre.geojson.Point
 import org.maplibre.geojson.Polygon
-import ro.mihaiblaga.jetlagtool.data.model.BorderGeometry
+import ro.mihaiblaga.jetlagtool.data.local.entity.FeatureEntity
 
 class GeometryConverter {
     @TypeConverter
-    fun fromGeometryEntity(borderGeometry: BorderGeometry): Geometry {
-        return when (borderGeometry.geometryType) {
-            "Point" -> Point.fromJson(borderGeometry.coordinatesJson)
-            "LineString" -> LineString.fromJson(borderGeometry.coordinatesJson)
-            "Polygon" -> Polygon.fromJson(borderGeometry.coordinatesJson)
-            "MultiPolygon" -> MultiPolygon.fromJson(borderGeometry.coordinatesJson)
-            else -> throw IllegalArgumentException("Unsupported geometry type: ${borderGeometry.geometryType}")
+    fun fromGeometryEntity(featureEntity: FeatureEntity): Geometry {
+        return when (featureEntity.type) {
+            "Point" -> Point.fromJson(featureEntity.coordinatesJson ?: "")
+            "LineString" -> LineString.fromJson(featureEntity.coordinatesJson ?: "")
+            "Polygon" -> Polygon.fromJson(featureEntity.coordinatesJson ?: "")
+            "MultiPolygon" -> MultiPolygon.fromJson(featureEntity.coordinatesJson)
+            else -> throw IllegalArgumentException("Unsupported geometry type: ${featureEntity.type}")
         }
     }
 }

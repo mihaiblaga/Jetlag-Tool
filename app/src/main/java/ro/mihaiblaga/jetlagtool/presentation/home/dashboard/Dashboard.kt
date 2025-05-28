@@ -22,10 +22,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ro.mihaiblaga.jetlagtool.data.repository.FakeGeoJsonFeatureRepository
-import ro.mihaiblaga.jetlagtool.domain.model.SelectionMode
+import ro.mihaiblaga.jetlagtool.data.repository.FakeFeatureRepository
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
+import ro.mihaiblaga.jetlagtool.presentation.home.map.SelectionMode
 
 @Composable
 fun Dashboard(
@@ -97,7 +97,7 @@ fun Dashboard(
 @Preview
 @Composable
 fun DashboardPreview() {
-    val sampleMapModel = MapViewModelFactory(FakeGeoJsonFeatureRepository()).create()
+    val sampleMapModel = MapViewModelFactory(FakeFeatureRepository()).create()
     Dashboard(
         modifier = Modifier,
         model = sampleMapModel,

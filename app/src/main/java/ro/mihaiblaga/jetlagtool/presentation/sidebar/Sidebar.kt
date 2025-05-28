@@ -21,7 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import ro.mihaiblaga.jetlagtool.data.model.AdministrativeDivision
+import ro.mihaiblaga.jetlagtool.data.local.entity.AdministrativeDivisionEntity
 import ro.mihaiblaga.jetlagtool.presentation.sidebar.SidebarState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -83,7 +83,7 @@ fun SidebarPreview() {
         state = MutableStateFlow(
             SidebarState(
                 items = listOf(
-                    AdministrativeDivision(
+                    AdministrativeDivisionEntity(
                         1,
                         "test",
                         "test",

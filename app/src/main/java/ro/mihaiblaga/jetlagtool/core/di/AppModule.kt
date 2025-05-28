@@ -5,14 +5,14 @@ import org.maplibre.android.MapLibre
 import org.maplibre.android.WellKnownTileServer
 import ro.mihaiblaga.jetlagtool.BuildConfig
 import ro.mihaiblaga.jetlagtool.data.local.AppDatabase
-import ro.mihaiblaga.jetlagtool.data.repository.FileGeoJsonFeatureRepositoryImpl
-import ro.mihaiblaga.jetlagtool.domain.geojson.GeoJsonFeatureRepository
+import ro.mihaiblaga.jetlagtool.data.repository.FileFeatureRepositoryImpl
+import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
 
 interface AppModule {
     val database: AppDatabase
-    val geoJsonFeatureRepository: GeoJsonFeatureRepository
+    val featureRepository: FeatureRepository
     val map: MapLibre
     val mapViewModel: MapViewModel
 }
@@ -31,9 +31,9 @@ class AppModuleImpl(
         AppDatabase.getInstance(appContext)
     }
 
-    override val geoJsonFeatureRepository: GeoJsonFeatureRepository =
-        FileGeoJsonFeatureRepositoryImpl(appContext)
+    override val featureRepository: FeatureRepository =
+        FileFeatureRepositoryImpl(appContext)
 
-    override val mapViewModel: MapViewModel = MapViewModelFactory(geoJsonFeatureRepository).create()
+    override val mapViewModel: MapViewModel = MapViewModelFactory(featureRepository).create()
 
 }

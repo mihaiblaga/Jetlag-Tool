@@ -4,12 +4,12 @@ import android.content.Context
 import android.util.Log
 import org.maplibre.geojson.Feature
 import org.maplibre.geojson.FeatureCollection
-import ro.mihaiblaga.jetlagtool.domain.geojson.GeoJsonFeatureRepository
+import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
 import java.io.IOException
 
-class FileGeoJsonFeatureRepositoryImpl(
+class FileFeatureRepositoryImpl(
     val context: Context
-) : GeoJsonFeatureRepository {
+) : FeatureRepository {
 
     private lateinit var featureCollection: FeatureCollection
 

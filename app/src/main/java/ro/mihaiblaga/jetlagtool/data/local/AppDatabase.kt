@@ -7,19 +7,19 @@ import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import org.maplibre.geojson.FeatureCollection
 import ro.mihaiblaga.jetlagtool.data.local.dao.AdministrativeDivisionDao
-import ro.mihaiblaga.jetlagtool.data.local.dao.BorderGeometryDao
-import ro.mihaiblaga.jetlagtool.data.model.AdministrativeDivision
-import ro.mihaiblaga.jetlagtool.data.model.BorderGeometry
+import ro.mihaiblaga.jetlagtool.data.local.dao.FeatureDao
+import ro.mihaiblaga.jetlagtool.data.local.entity.AdministrativeDivisionEntity
+import ro.mihaiblaga.jetlagtool.data.local.entity.FeatureEntity
 
 @Database(
     entities = [
-        AdministrativeDivision::class,
-        BorderGeometry::class],
+        AdministrativeDivisionEntity::class,
+        FeatureEntity::class],
     version = 1
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun administrativeDivisionDao(): AdministrativeDivisionDao
-    abstract fun borderGeometryDao(): BorderGeometryDao
+    abstract fun featureDao(): FeatureDao
 
     companion object {
         @Volatile
@@ -56,18 +56,19 @@ abstract class AppDatabase : RoomDatabase() {
         featureCollection = FeatureCollection.fromJson(jsonString)
 
         for (feature in featureCollection.features()!!) {
-            val geometry = BorderGeometry(
-                geometryType = feature.geometry()!!.type(),
-                coordinatesJson = feature.geometry()!!.toJson()
+            val geometry = FeatureEntity(
+                type = feature.geometry()!!.type(),
+                coordinatesJson = feature.geometry()!!.toJson(),
+                propertiesJson = feature.toJson()
             )
-            val geometryId = borderGeometryDao().insert(geometry)
-            val administrativeDivision = AdministrativeDivision(
+            val featureId = featureDao().insert(geometry)
+            val administrativeDivisionEntity = AdministrativeDivisionEntity(
                 level = 5,
                 type = "test",
                 name = feature.properties()?.get("Name").toString(),
-                geometryId = geometryId
+                featureId = featureId
             )
-            administrativeDivisionDao().insert(administrativeDivision)
+            administrativeDivisionDao().insert(administrativeDivisionEntity)
         }
     }
 }

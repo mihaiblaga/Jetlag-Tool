@@ -21,7 +21,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import org.maplibre.android.maps.MapLibreMap
-import ro.mihaiblaga.jetlagtool.data.repository.FakeGeoJsonFeatureRepository
+import ro.mihaiblaga.jetlagtool.data.repository.FakeFeatureRepository
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
 import ro.mihaiblaga.jetlagtool.presentation.home.bottombar.BottomBar
@@ -95,7 +95,7 @@ fun HomeView(
 @Preview
 @Composable
 fun HomeViewPreview() {
-    val sampleMapModel = MapViewModelFactory(FakeGeoJsonFeatureRepository()).create()
+    val sampleMapModel = MapViewModelFactory(FakeFeatureRepository()).create()
     HomeView(
         mapViewModel = sampleMapModel,
         modifier = Modifier
