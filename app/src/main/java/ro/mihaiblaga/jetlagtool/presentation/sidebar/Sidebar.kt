@@ -14,33 +14,30 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
-import ro.mihaiblaga.jetlagtool.data.local.entity.AdministrativeDivisionEntity
-import ro.mihaiblaga.jetlagtool.presentation.sidebar.SidebarState
+import ro.mihaiblaga.jetlagtool.presentation.sidebar.SidebarViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Sidebar(
-    state: StateFlow<SidebarState>,
+    viewModel: SidebarViewModel,
     modifier: Modifier = Modifier,
     onCloseButtonClicked: () -> Unit = {}
 ) {
+    val uiState by viewModel.state.collectAsState()
     ModalDrawerSheet(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
                 .padding(start = 20.dp, end = 10.dp)
-                .padding(top = 35.dp),
-            verticalAlignment = Alignment.CenterVertically
+                .padding(top = 35.dp), verticalAlignment = Alignment.CenterVertically
         ) {
             Text("Sidebar", fontSize = 25.sp)
             Spacer(modifier = Modifier.weight(1f))
@@ -59,38 +56,25 @@ fun Sidebar(
                 .fillMaxSize()
                 .padding(start = 20.dp, end = 10.dp)
         ) {
-            items(state.value.items) { item ->
+            items(uiState.items) { item ->
                 Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        modifier = Modifier
-                            .weight(2f),
-                        fontSize = 25.sp,
-                        text = item.name
+                        modifier = Modifier.weight(2f), fontSize = 25.sp, text = item.name
                     )
                 }
             }
         }
     }
 }
-
-@Composable
-@Preview
-fun SidebarPreview() {
-    Sidebar(
-        state = MutableStateFlow(
-            SidebarState(
-                items = listOf(
-                    AdministrativeDivisionEntity(
-                        1,
-                        "test",
-                        "test",
-                        1
-                    )
-                )
-            )
-        )
-    )
-}
+//
+//@Composable
+//@Preview
+//fun SidebarPreview() {
+//    Sidebar(
+//        viewModel = TODO(),
+//        modifier = TODO(),
+//        onCloseButtonClicked = TODO()
+//    )
+//}

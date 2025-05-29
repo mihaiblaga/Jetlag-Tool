@@ -1,39 +1,41 @@
 package ro.mihaiblaga.jetlagtool.core.di
 
-import android.content.Context
-import org.maplibre.android.MapLibre
-import org.maplibre.android.WellKnownTileServer
-import ro.mihaiblaga.jetlagtool.BuildConfig
+import android.app.Application
+import dagger.Module
+import dagger.Provides
+import dagger.hilt.InstallIn
+import dagger.hilt.components.SingletonComponent
 import ro.mihaiblaga.jetlagtool.data.local.AppDatabase
-import ro.mihaiblaga.jetlagtool.data.repository.FileFeatureRepositoryImpl
+import ro.mihaiblaga.jetlagtool.data.repository.AdministrativeDivisionRepositoryImpl
+import ro.mihaiblaga.jetlagtool.data.repository.FeatureRepositoryImpl
+import ro.mihaiblaga.jetlagtool.domain.repository.AdministrativeDivisionRepository
 import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
-import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
-import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
+import javax.inject.Singleton
 
-interface AppModule {
-    val database: AppDatabase
-    val featureRepository: FeatureRepository
-    val map: MapLibre
-    val mapViewModel: MapViewModel
-}
+@Module
+@InstallIn(SingletonComponent::class)
+object AppModule {
 
-class AppModuleImpl(
-    appContext: Context
-) : AppModule {
-    val mapLibreApiKey = BuildConfig.MAPLIBRE_ACCESS_TOKEN
-
-    override val map: MapLibre = MapLibre.getInstance(
-        appContext,
-        mapLibreApiKey,
-        WellKnownTileServer.MapTiler,
-    )
-    override val database: AppDatabase by lazy {
-        AppDatabase.getInstance(appContext)
+    @Provides
+    @Singleton
+    fun provideDatabase(app: Application): AppDatabase {
+        return AppDatabase.getInstance(app.applicationContext)
     }
 
-    override val featureRepository: FeatureRepository =
-        FileFeatureRepositoryImpl(appContext)
+    @Provides
+    @Singleton
+    fun provideAdministrativeDivisionRepository(database: AppDatabase): AdministrativeDivisionRepository {
+        return AdministrativeDivisionRepositoryImpl(
+            database.administrativeDivisionDao(),
+            provideFeatureRepository(database)
+        )
+    }
 
-    override val mapViewModel: MapViewModel = MapViewModelFactory(featureRepository).create()
-
+    @Provides
+    @Singleton
+    fun provideFeatureRepository(database: AppDatabase): FeatureRepository {
+        return FeatureRepositoryImpl(
+            database.featureDao()
+        )
+    }
 }

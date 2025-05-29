@@ -18,20 +18,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.launch
 import org.maplibre.android.maps.MapLibreMap
-import ro.mihaiblaga.jetlagtool.data.repository.FakeFeatureRepository
 import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
-import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
 import ro.mihaiblaga.jetlagtool.presentation.home.bottombar.BottomBar
 import ro.mihaiblaga.jetlagtool.presentation.home.map.MapLibreView
 import ro.mihaiblaga.jetlagtool.presentation.home.topbar.TopBar
+import ro.mihaiblaga.jetlagtool.presentation.sidebar.SidebarViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeView(
     mapViewModel: MapViewModel,
+    sidebarViewModel: SidebarViewModel,
     modifier: Modifier = Modifier,
 ) {
     var mapLibreInstance by remember { mutableStateOf<MapLibreMap?>(null) }
@@ -48,7 +47,7 @@ fun HomeView(
         drawerContent = {
             Sidebar(
                 modifier = modifier,
-                state = mapViewModel.sidebarState,
+                viewModel = sidebarViewModel,
                 onCloseButtonClicked = {
                     scope.launch {
                         drawerState.close()
@@ -92,13 +91,13 @@ fun HomeView(
 
 }
 
-@Preview
-@Composable
-fun HomeViewPreview() {
-    val sampleMapModel = MapViewModelFactory(FakeFeatureRepository()).create()
-    HomeView(
-        mapViewModel = sampleMapModel,
-        modifier = Modifier
-            .fillMaxSize()
-    )
-}
+//@Preview
+//@Composable
+//fun HomeViewPreview() {
+//    HomeView(
+//        mapViewModel = hiltViewModel(),
+//        sidebarViewModel = hiltViewModel(),
+//        modifier = Modifier
+//            .fillMaxSize()
+//    )
+//}

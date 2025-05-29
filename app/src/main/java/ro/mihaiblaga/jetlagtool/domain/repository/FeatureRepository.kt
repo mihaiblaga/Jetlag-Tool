@@ -4,6 +4,8 @@ import org.maplibre.geojson.Feature
 
 interface FeatureRepository {
 
-    fun getFeatures(): List<Feature>?
+    suspend fun getFeatures(): List<Feature>?
+
+    suspend fun getFeatureById(id: Long): Feature?
 
 }

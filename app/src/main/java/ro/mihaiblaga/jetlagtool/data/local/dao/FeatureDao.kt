@@ -9,9 +9,12 @@ import ro.mihaiblaga.jetlagtool.data.local.entity.FeatureEntity
 @Dao
 interface FeatureDao {
     @Insert
-    fun insert(featureEntity: FeatureEntity): Long
+    suspend fun insert(featureEntity: FeatureEntity): Long
 
     @Query("SELECT * FROM ${DatabaseSchema.TABLE_FEATURE} WHERE id = :id")
-    fun getBorderGeometryById(id: Long): FeatureEntity?
+    suspend fun getFeatureById(id: Long): FeatureEntity?
+
+    @Query("SELECT * FROM ${DatabaseSchema.TABLE_FEATURE}")
+    suspend fun getAllFeatures(): List<FeatureEntity>
 
 }

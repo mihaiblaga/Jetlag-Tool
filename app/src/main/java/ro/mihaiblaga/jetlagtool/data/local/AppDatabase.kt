@@ -5,6 +5,10 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
 import org.maplibre.geojson.FeatureCollection
 import ro.mihaiblaga.jetlagtool.data.local.dao.AdministrativeDivisionDao
 import ro.mihaiblaga.jetlagtool.data.local.dao.FeatureDao
@@ -20,6 +24,8 @@ import ro.mihaiblaga.jetlagtool.data.local.entity.FeatureEntity
 abstract class AppDatabase : RoomDatabase() {
     abstract fun administrativeDivisionDao(): AdministrativeDivisionDao
     abstract fun featureDao(): FeatureDao
+
+    private val databaseScope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
 
     companion object {
         @Volatile
@@ -59,16 +65,18 @@ abstract class AppDatabase : RoomDatabase() {
             val geometry = FeatureEntity(
                 type = feature.geometry()!!.type(),
                 coordinatesJson = feature.geometry()!!.toJson(),
-                propertiesJson = feature.toJson()
+                propertiesJson = feature.properties().toString()
             )
-            val featureId = featureDao().insert(geometry)
-            val administrativeDivisionEntity = AdministrativeDivisionEntity(
-                level = 5,
-                type = "test",
-                name = feature.properties()?.get("Name").toString(),
-                featureId = featureId
-            )
-            administrativeDivisionDao().insert(administrativeDivisionEntity)
+            databaseScope.launch {
+                val featureId = featureDao().insert(geometry)
+                val administrativeDivisionEntity = AdministrativeDivisionEntity(
+                    level = 5,
+                    type = "test",
+                    name = feature.properties()?.get("Name").toString(),
+                    featureId = featureId
+                )
+                administrativeDivisionDao().insert(administrativeDivisionEntity)
+            }
         }
     }
 }

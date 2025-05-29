@@ -2,10 +2,14 @@ package ro.mihaiblaga.jetlagtool.presentation
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.geojson.Feature
@@ -14,20 +18,18 @@ import org.maplibre.geojson.Polygon
 import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
 import ro.mihaiblaga.jetlagtool.presentation.home.map.MapAction
 import ro.mihaiblaga.jetlagtool.presentation.home.map.SelectionMode
-import ro.mihaiblaga.jetlagtool.presentation.sidebar.SidebarState
 import java.util.UUID
+import javax.inject.Inject
 
-class MapViewModel(
+@HiltViewModel
+class MapViewModel @Inject constructor(
     private val featureRepository: FeatureRepository
 ) : ViewModel() {
-
-    private val _sidebarState = MutableStateFlow(SidebarState(items = emptyList()))
-
-    val sidebarState: StateFlow<SidebarState> = _sidebarState.asStateFlow()
 
     private val _mapActions = MutableStateFlow<List<MapAction>>(emptyList())
 
     val mapActions: StateFlow<List<MapAction>> = _mapActions.asStateFlow()
+
 
     private val _currentSelectionMode =
         MutableStateFlow<SelectionMode>(SelectionMode.RegularSelectionMode)
@@ -71,11 +73,14 @@ class MapViewModel(
     }
 
     fun drawFeatures() {
-        val features = featureRepository.getFeatures()
-        if (features != null) {
-            for (feature in features) {
-                requestPolygonDraw(feature)
+        viewModelScope.launch(Dispatchers.IO) {
+            val features = featureRepository.getFeatures()
+            if (features != null) {
+                for (feature in features) {
+                    requestPolygonDraw(feature)
+                }
             }
+
         }
     }
 

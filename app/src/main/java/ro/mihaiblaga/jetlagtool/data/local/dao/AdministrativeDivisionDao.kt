@@ -10,8 +10,12 @@ import ro.mihaiblaga.jetlagtool.data.local.entity.AdministrativeDivisionEntity
 interface AdministrativeDivisionDao {
 
     @Insert
-    fun insert(administrativeDivisionEntity: AdministrativeDivisionEntity): Long
+    suspend fun insert(administrativeDivisionEntity: AdministrativeDivisionEntity): Long
 
     @Query("SELECT * FROM ${DatabaseSchema.TABLE_ADMINISTRATIVE_DIVISION} WHERE id = :id")
-    fun getAdministrativeDivisionById(id: Long): AdministrativeDivisionEntity? // TODO: Flow or LiveData?
+    suspend fun getAdministrativeDivisionById(id: Long): AdministrativeDivisionEntity? // TODO: Flow or LiveData?
+
+    @Query("SELECT * FROM ${DatabaseSchema.TABLE_ADMINISTRATIVE_DIVISION}")
+    suspend fun getAllAdministrativeDivisions(): List<AdministrativeDivisionEntity>
+
 }

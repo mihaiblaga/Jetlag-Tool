@@ -13,6 +13,8 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
+import org.maplibre.android.MapLibre
+import org.maplibre.android.WellKnownTileServer
 import org.maplibre.android.camera.CameraUpdateFactory
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
@@ -34,6 +36,14 @@ fun MapLibreView(
     )
     val context = LocalContext.current
     val lifecycle = LocalLifecycleOwner.current.lifecycle
+
+    val mapLibreApiKey = BuildConfig.MAPLIBRE_ACCESS_TOKEN
+
+    MapLibre.getInstance(
+        context,
+        mapLibreApiKey,
+        WellKnownTileServer.MapTiler,
+    )
     val mapView = remember { MapView(context) }
 
     val actionsToProcess by model.mapActions.collectAsState()
