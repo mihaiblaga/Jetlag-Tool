@@ -73,7 +73,8 @@ abstract class AppDatabase : RoomDatabase() {
                     level = 5,
                     type = "test",
                     name = feature.properties()?.get("Name").toString(),
-                    featureId = featureId
+                    featureId = featureId,
+                    parentId = null
                 )
                 administrativeDivisionDao().insert(administrativeDivisionEntity)
             }

@@ -4,21 +4,23 @@ import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
 import org.maplibre.geojson.Feature
 
-sealed class MapAction {
-    data class AnimateCamera(val position: CameraPosition) : MapAction()
+sealed class MapEvent {
+    data class AnimateCamera(val position: CameraPosition) : MapEvent()
 
     data class DrawFeature(
-        val feature: Feature,
-        val sourceId: String,
-        val layerId: String
-    ) : MapAction()
+        val feature: Feature
+    ) : MapEvent()
 
     data class AddMarker(
         val position: LatLng,
         val title: String? = null,
         val markerId: String
-    ) : MapAction()
+    ) : MapEvent()
 
-    class ClearSelectedPoints() : MapAction()
+    object DrawFeatures : MapEvent()
+
+    object ClearSelectedPoints : MapEvent()
+
+    object ClearMap : MapEvent()
 
 }

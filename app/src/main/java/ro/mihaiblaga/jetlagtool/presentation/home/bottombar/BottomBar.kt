@@ -31,9 +31,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ro.mihaiblaga.jetlagtool.data.repository.FakeFeatureRepository
-import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
-import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
+import androidx.hilt.navigation.compose.hiltViewModel
+import ro.mihaiblaga.jetlagtool.presentation.home.map.MapEvent
+import ro.mihaiblaga.jetlagtool.presentation.home.map.MapViewModel
 
 @Composable
 fun BottomBar(
@@ -82,7 +82,9 @@ fun BottomBar(
                         Icon(Icons.Filled.Edit, "Edit")
                     }
                     FloatingActionButton(
-                        onClick = { model.drawFeatures() },
+                        onClick = {
+                            model.onEvent(MapEvent.DrawFeatures)
+                        },
                         shape = CircleShape
                     ) {
                         Icon(Icons.Filled.Call, "Call")
@@ -117,8 +119,7 @@ fun BottomBar(
 @Composable
 @Preview
 fun BottomBarPreview() {
-    val sampleMapModel = MapViewModelFactory(FakeFeatureRepository()).create()
     BottomBar(
-        model = sampleMapModel
+        model = hiltViewModel()
     )
 }

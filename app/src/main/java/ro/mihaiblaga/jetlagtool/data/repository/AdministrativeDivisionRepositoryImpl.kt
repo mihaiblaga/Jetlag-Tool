@@ -30,7 +30,8 @@ class AdministrativeDivisionRepositoryImpl(
             type = entity.type,
             name = entity.name,
             feature = featureRepository.getFeatureById(entity.featureId)
-                ?: throw Exception("Feature not found")
+                ?: throw Exception("Feature not found"),
+            parent = entity.parentId?.let { getAdministrativeDivisionById(it) }
         )
     }
 }

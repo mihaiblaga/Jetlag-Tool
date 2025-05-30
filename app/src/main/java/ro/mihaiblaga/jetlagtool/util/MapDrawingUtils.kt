@@ -19,6 +19,7 @@ import org.maplibre.geojson.Feature
 import org.maplibre.geojson.LineString
 import org.maplibre.geojson.Point
 import org.maplibre.geojson.Polygon
+import java.util.UUID
 
 const val MARKER_SOURCE_ID_PREFIX = "marker-source-"
 const val MARKER_LAYER_ID_PREFIX = "marker-layer-"
@@ -26,8 +27,8 @@ const val MARKER_LAYER_ID_PREFIX = "marker-layer-"
 fun drawPolygon(
     style: Style,
     feature: Feature,
-    sourceId: String = "",
-    layerId: String = ""
+    sourceId: String = "${feature.type()}-${UUID.randomUUID()}",
+    layerId: String = "${feature.type()}-${UUID.randomUUID()}"
 ): Boolean {
     Log.d(
         "MapDrawingUtils",
@@ -42,7 +43,7 @@ fun drawPolygon(
             Log.w("MapDrawingUtils", "Invalid geometry type. Not drawing line.")
             return false
         }
-    } catch (e: IllegalStateException){
+    } catch (e: IllegalStateException) {
         Log.e("MapDrawingUtils", "Error creating LineString geometry", e)
         return false
     }
@@ -141,4 +142,34 @@ fun clearMapFeatures(style: Style) {
     )
     }
     Log.d("MapDrawingUtils", "Features cleared from map")
+}
+
+fun drawFeatures(style: Style, features: List<Feature>?) {
+    val sources = style.sources
+    val layers = style.layers
+
+    for (source in sources) {
+        if (source.id.startsWith("feature")) {
+            style.removeSource(source.id)
+        }
+    }
+    for (layer in layers) {
+        if (layer.id.startsWith("feature")) {
+            style.removeLayer(layer.id)
+        }
+    }
+
+    if (features != null) {
+        for (feature in features) {
+            val sourceId = "feature-${feature.type()}-${UUID.randomUUID()}"
+            val layerId = "feature-${feature.type()}-${UUID.randomUUID()}"
+            style.addSource(GeoJsonSource(sourceId, feature))
+            val layer = FillLayer(layerId, sourceId)
+            layer.setProperties(
+                fillColor("#80FF0000".toColorInt()),
+                fillOpacity(0.5f)
+            )
+            style.addLayer(layer)
+        }
+    }
 }

@@ -13,7 +13,6 @@ import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Switch
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -22,10 +21,9 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ro.mihaiblaga.jetlagtool.data.repository.FakeFeatureRepository
-import ro.mihaiblaga.jetlagtool.presentation.MapViewModel
-import ro.mihaiblaga.jetlagtool.presentation.MapViewModelFactory
-import ro.mihaiblaga.jetlagtool.presentation.home.map.SelectionMode
+import androidx.hilt.navigation.compose.hiltViewModel
+import ro.mihaiblaga.jetlagtool.presentation.home.map.MapEvent
+import ro.mihaiblaga.jetlagtool.presentation.home.map.MapViewModel
 
 @Composable
 fun Dashboard(
@@ -33,8 +31,6 @@ fun Dashboard(
     model: MapViewModel,
 ) {
     var isExpanded by remember { mutableStateOf(false) }
-
-    val selectionMode by model.currentSelectionMode.collectAsState()
 
     var checked by remember { mutableStateOf(false) }
 
@@ -65,11 +61,6 @@ fun Dashboard(
                     onCheckedChange = {
                         checked = it
                         Log.d("ToggleButton", "Toggle Selection Mode BUTTON CLICKED")
-                        if (selectionMode is SelectionMode.PointSelectionMode) {
-                            model.setSelectionMode(SelectionMode.RegularSelectionMode)
-                        } else {
-                            model.setSelectionMode(SelectionMode.PointSelectionMode)
-                        }
                     }
                 )
                 Icon(
@@ -84,10 +75,7 @@ fun Dashboard(
                 icon = Icons.Filled.Delete,
                 shape = CircleShape,
                 onClick = {
-                    Log.d("DeleteButton", "DeleteButton BUTTON CLICKED.")
-                    model.clearSelectedPoints()
-                    isExpanded = !isExpanded
-                    Log.d("DeleteButton", "DashboardButton clicked. State is: $isExpanded")
+                    model.onEvent(MapEvent.ClearMap)
                 }
             )
         }
@@ -97,9 +85,8 @@ fun Dashboard(
 @Preview
 @Composable
 fun DashboardPreview() {
-    val sampleMapModel = MapViewModelFactory(FakeFeatureRepository()).create()
     Dashboard(
         modifier = Modifier,
-        model = sampleMapModel,
+        model = hiltViewModel(),
     )
 }

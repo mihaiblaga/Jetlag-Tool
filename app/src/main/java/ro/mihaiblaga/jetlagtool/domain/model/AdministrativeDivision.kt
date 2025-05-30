@@ -7,5 +7,6 @@ data class AdministrativeDivision(
     val level: Int,
     val type: String,
     val name: String,
-    val feature: Feature
+    val feature: Feature,
+    val parent: AdministrativeDivision?,
 )

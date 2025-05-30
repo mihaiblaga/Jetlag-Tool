@@ -19,6 +19,9 @@ data class AdministrativeDivisionEntity(
     @ColumnInfo(name = COLUMN_LEVEL)
     val level: Int,
 
+    @ColumnInfo(name = COLUMN_PARENT_ID)
+    val parentId: Long?,
+
     @ColumnInfo(name = COLUMN_TYPE)
     val type: String,
 
@@ -38,5 +41,6 @@ data class AdministrativeDivisionEntity(
         const val COLUMN_NAME = "name"
         const val COLUMN_FEATURE_ID = "featureId"
         const val COLUMN_ID = "id"
+        const val COLUMN_PARENT_ID = "parentId"
     }
 }

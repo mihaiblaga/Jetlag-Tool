@@ -9,7 +9,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import ro.mihaiblaga.jetlagtool.presentation.home.HomeView
+import ro.mihaiblaga.jetlagtool.presentation.home.HomeScreen
 import ro.mihaiblaga.jetlagtool.ui.theme.JetlagToolTheme
 
 
@@ -27,7 +27,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier,
                 ) { innerPadding ->
-                    HomeView(
+                    HomeScreen(
                         mapViewModel = hiltViewModel(),
                         sidebarViewModel = hiltViewModel(),
                         modifier = Modifier
