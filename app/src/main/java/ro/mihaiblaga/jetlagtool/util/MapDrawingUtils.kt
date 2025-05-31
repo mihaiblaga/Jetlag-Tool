@@ -7,6 +7,8 @@ import org.maplibre.android.maps.Style
 import org.maplibre.android.style.layers.CircleLayer
 import org.maplibre.android.style.layers.FillLayer
 import org.maplibre.android.style.layers.LineLayer
+import org.maplibre.android.style.layers.PropertyFactory.circleColor
+import org.maplibre.android.style.layers.PropertyFactory.circleOpacity
 import org.maplibre.android.style.layers.PropertyFactory.fillColor
 import org.maplibre.android.style.layers.PropertyFactory.fillOpacity
 import org.maplibre.android.style.layers.PropertyFactory.lineColor
@@ -77,7 +79,7 @@ fun initializeSourcesLayers(style: Style) {
     val pointSourceId = "feature-point-source"
     val pointLayerId = "feature-point-layer"
     val pointLayer = CircleLayer(pointLayerId, pointSourceId)
-    pointLayer.setProperties(fillColor("#80FF0000".toColorInt()), fillOpacity(0.5f))
+    pointLayer.setProperties(circleColor("#80FF0000".toColorInt()), circleOpacity(0.5f))
     style.addSource(GeoJsonSource(pointSourceId))
     style.addLayer(pointLayer)
 
