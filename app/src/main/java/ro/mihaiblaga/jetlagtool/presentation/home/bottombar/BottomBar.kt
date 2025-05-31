@@ -35,8 +35,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ro.mihaiblaga.jetlagtool.presentation.home.map.MapEvent
+import ro.mihaiblaga.jetlagtool.presentation.home.map.MapTool
 import ro.mihaiblaga.jetlagtool.presentation.home.map.MapViewModel
-import ro.mihaiblaga.jetlagtool.presentation.home.map.Tool
 
 @Composable
 fun BottomBar(
@@ -84,7 +84,7 @@ fun BottomBar(
                     FloatingActionButton(
                         modifier = Modifier
                             .then(
-                                if (mapState.value.currentTool == Tool.Circle)
+                                if (mapState.value.currentMapTool == MapTool.Circle)
                                     Modifier
                                         .border(
                                             width = 2.dp,
@@ -94,10 +94,10 @@ fun BottomBar(
                                 else Modifier
                             ),
                         onClick = {
-                            if (mapState.value.currentTool != Tool.Circle) {
-                                viewModel.onEvent(MapEvent.ChangeTool(Tool.Circle))
+                            if (mapState.value.currentMapTool != MapTool.Circle) {
+                                viewModel.onEvent(MapEvent.ChangeTool(MapTool.Circle))
                             } else {
-                                viewModel.onEvent(MapEvent.ChangeTool(Tool.Regular))
+                                viewModel.onEvent(MapEvent.ChangeTool(MapTool.Regular))
                             }
                         },
                         shape = CircleShape
@@ -107,7 +107,7 @@ fun BottomBar(
                     FloatingActionButton(
                         modifier = Modifier
                             .then(
-                                if (mapState.value.currentTool == Tool.Line)
+                                if (mapState.value.currentMapTool == MapTool.Line)
                                     Modifier
                                         .border(
                                             width = 2.dp,
@@ -117,10 +117,10 @@ fun BottomBar(
                                 else Modifier
                             ),
                         onClick = {
-                            if (mapState.value.currentTool != Tool.Line) {
-                                viewModel.onEvent(MapEvent.ChangeTool(Tool.Line))
+                            if (mapState.value.currentMapTool != MapTool.Line) {
+                                viewModel.onEvent(MapEvent.ChangeTool(MapTool.Line))
                             } else {
-                                viewModel.onEvent(MapEvent.ChangeTool(Tool.Regular))
+                                viewModel.onEvent(MapEvent.ChangeTool(MapTool.Regular))
                             }
                         },
                         shape = CircleShape

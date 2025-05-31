@@ -53,10 +53,10 @@ class MapViewModel @Inject constructor(
             is MapEvent.ClearSelectedPoints -> TODO()
             is MapEvent.ChangeTool -> {
                 _state.value = _state.value.copy(
-                    currentTool = event.tool,
+                    currentMapTool = event.mapTool,
                     selectedPoints = emptyList()
                 )
-                Log.d("MapViewModel", "Changed tool to: ${event.tool}")
+                Log.d("MapViewModel", "Changed tool to: ${event.mapTool}")
             }
 
             is MapEvent.AddPoint -> {
@@ -70,8 +70,8 @@ class MapViewModel @Inject constructor(
     }
 
     fun handlePoints() {
-        when (_state.value.currentTool) {
-            Tool.Circle -> {
+        when (_state.value.currentMapTool) {
+            MapTool.Circle -> {
                 when (_state.value.selectedPoints.size) {
                     0, 1 -> {
                         Log.d("MapViewModel", "Not enough points to draw circle")
@@ -100,7 +100,7 @@ class MapViewModel @Inject constructor(
                 }
             }
 
-            Tool.Line -> {
+            MapTool.Line -> {
                 when (_state.value.selectedPoints.size) {
                     0, 1 -> {
                         Log.d("MapViewModel", "Not enough points to draw line")
@@ -119,8 +119,9 @@ class MapViewModel @Inject constructor(
                     }
                 }
             }
-            Tool.Point -> TODO()
-            Tool.Regular -> TODO()
+
+            MapTool.Point -> TODO()
+            MapTool.Regular -> TODO()
         }
     }
 }

@@ -80,7 +80,7 @@ fun MapView(
             val currentFeatures = mapState.features
             val currentCameraPosition = mapState.cameraPosition
             mapView.getMapAsync { map ->
-                if (mapState.currentTool != Tool.Regular) {
+                if (mapState.currentMapTool != MapTool.Regular) {
                     map.removeOnMapClickListener(mapClickListener)
                     Log.d("MapView", "Trying to remove MapClickListener before adding")
                     map.addOnMapClickListener(mapClickListener)
