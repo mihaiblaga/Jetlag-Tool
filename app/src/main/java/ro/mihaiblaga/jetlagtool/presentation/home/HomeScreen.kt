@@ -68,7 +68,7 @@ fun HomeScreen(
             bottomBar = {
                 BottomBar(
                     modifier = modifier,
-                    model = mapViewModel
+                    viewModel = mapViewModel
                 )
             }
         ) { innerPadding ->

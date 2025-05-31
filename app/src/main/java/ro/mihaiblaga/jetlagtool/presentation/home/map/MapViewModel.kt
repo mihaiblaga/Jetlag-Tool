@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import org.maplibre.geojson.Point
 import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
+import ro.mihaiblaga.jetlagtool.util.createCircleFeatureFromTwoPoints
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +27,7 @@ class MapViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     cameraPosition = event.position
                 )
+                Log.d("MapViewModel", "Animated camera to: ${event.position}")
             }
 
             is MapEvent.AddMarker -> TODO()
@@ -32,6 +35,7 @@ class MapViewModel @Inject constructor(
                 _state.value = _state.value.copy(
                     features = emptyList()
                 )
+                Log.d("MapViewModel", "Cleared map")
             }
 
             is MapEvent.DrawFeature -> TODO()
@@ -41,11 +45,60 @@ class MapViewModel @Inject constructor(
                     _state.update {
                         it.copy(features = features)
                     }
-                    Log.d("MapViewModel", "Features drawn: ${features?.size}")
+                    Log.d("MapViewModel", "Drawn features: ${features?.size}")
                 }
             }
 
             is MapEvent.ClearSelectedPoints -> TODO()
+            is MapEvent.ChangeTool -> {
+                _state.value = _state.value.copy(
+                    currentTool = event.tool
+                )
+                Log.d("MapViewModel", "Changed tool to: ${event.tool}")
+            }
+
+            is MapEvent.AddPoint -> {
+                _state.value = _state.value.copy(
+                    selectedPoints = _state.value.selectedPoints + event.point
+                )
+                handlePoints()
+                Log.d("MapViewModel", "Added point: ${event.point}")
+            }
+        }
+    }
+
+    fun handlePoints() {
+        when (_state.value.currentTool) {
+            Tool.Circle -> {
+                if (_state.value.selectedPoints.size == 2) {
+                    val centerPoint = _state.value.selectedPoints[0]
+                    val pointOnCircumference = _state.value.selectedPoints[1]
+                    val circle = createCircleFeatureFromTwoPoints(
+                        Point.fromLngLat(centerPoint.longitude, centerPoint.latitude),
+                        Point.fromLngLat(
+                            pointOnCircumference.longitude,
+                            pointOnCircumference.latitude
+                        )
+                    )
+                    if (circle != null) {
+                        _state.update {
+                            it.copy(
+                                features = it.features?.plus(circle),
+                                selectedPoints = emptyList()
+                            )
+                        }
+                    }
+                    Log.d("MapViewModel", "Drawn circle: $circle")
+                } else {
+                    Log.d("MapViewModel", "Not enough points to draw circle")
+                }
+
+            }
+
+
+            Tool.Line -> TODO()
+            Tool.Point -> TODO()
+            Tool.Regular -> TODO()
         }
     }
 }

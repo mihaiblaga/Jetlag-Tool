@@ -14,6 +14,7 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import org.maplibre.android.MapLibre
 import org.maplibre.android.WellKnownTileServer
+import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
 import ro.mihaiblaga.jetlagtool.BuildConfig
 import ro.mihaiblaga.jetlagtool.util.drawFeatures
@@ -52,6 +53,15 @@ fun MapView(
         }
     }
 
+    val mapClickListener = remember {
+        MapLibreMap.OnMapClickListener { point ->
+            Log.d("MapViewModel", "Map clicked at: $point")
+            viewModel.onEvent(MapEvent.AddPoint(point))
+            true
+        }
+    }
+
+
 
     AndroidView(
         factory = {
@@ -60,7 +70,6 @@ fun MapView(
             mapView.onCreate(null)
             mapView.getMapAsync { map ->
                 map.setStyle(styleUrl)
-
             }
             mapView
         },
@@ -68,11 +77,23 @@ fun MapView(
         update = { mapView ->
             Log.d("MapView", "Updating map view")
             val currentFeatures = mapState.features
+            val currentCameraPosition = mapState.cameraPosition
             mapView.getMapAsync { map ->
+                if (mapState.currentTool != Tool.Regular) {
+                    map.removeOnMapClickListener(mapClickListener)
+                    Log.d("MapView", "Trying to remove MapClickListener before adding")
+                    map.addOnMapClickListener(mapClickListener)
+                    Log.d("MapView", "MapClickListener added")
+                } else {
+                    map.removeOnMapClickListener(mapClickListener)
+                    Log.d("MapView", "MapClickListener removed")
+                }
                 map.getStyle { style ->
                     drawFeatures(style, currentFeatures)
-                    mapState.cameraPosition.let { position ->
-                        map.cameraPosition = position
+                    currentCameraPosition.let { position ->
+                        if (map.cameraPosition != currentCameraPosition) {
+                            map.cameraPosition = position
+                        }
                     }
                 }
             }

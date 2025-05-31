@@ -1,6 +1,7 @@
 [versions]
 agp = "8.10.1"
 androidSdk = "11.8.0"
+androidSdkTurf = "6.0.1"
 hiltAndroid = "2.56.2"
 hiltAndroidCompiler = "2.56.2"
 hiltNavigationCompose = "1.2.0"
@@ -21,6 +22,7 @@ hilt = "2.56.2"
 
 [libraries]
 android-sdk = { module = "org.maplibre.gl:android-sdk", version.ref = "androidSdk" }
+android-sdk-turf = { module = "org.maplibre.gl:android-sdk-turf", version.ref = "androidSdkTurf" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleRuntimeKtx" }

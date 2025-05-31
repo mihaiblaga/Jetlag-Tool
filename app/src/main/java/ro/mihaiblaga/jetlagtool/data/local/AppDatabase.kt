@@ -1,6 +1,7 @@
 package ro.mihaiblaga.jetlagtool.data.local
 
 import android.content.Context
+import android.util.Log
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
@@ -75,6 +76,10 @@ abstract class AppDatabase : RoomDatabase() {
                     name = feature.properties()?.get("Name").toString(),
                     featureId = featureId,
                     parentId = null
+                )
+                Log.d(
+                    "AppDatabase",
+                    "Adding administrative division: $administrativeDivisionEntity"
                 )
                 administrativeDivisionDao().insert(administrativeDivisionEntity)
             }

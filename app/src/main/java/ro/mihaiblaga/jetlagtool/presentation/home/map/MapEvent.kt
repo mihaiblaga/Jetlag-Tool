@@ -23,4 +23,9 @@ sealed class MapEvent {
 
     object ClearMap : MapEvent()
 
+    data class ChangeTool(val tool: Tool) : MapEvent()
+
+    data class AddPoint(val point: LatLng) : MapEvent()
+
+
 }

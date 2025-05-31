@@ -5,6 +5,7 @@ import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.animation.slideInHorizontally
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -14,15 +15,16 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowLeft
 import androidx.compose.material.icons.automirrored.filled.ArrowRight
-import androidx.compose.material.icons.filled.Call
-import androidx.compose.material.icons.filled.Edit
-import androidx.compose.material.icons.filled.Home
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.LinearScale
 import androidx.compose.material.icons.filled.Menu
+import androidx.compose.material.icons.twotone.Circle
 import androidx.compose.material3.BottomAppBar
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,14 +36,16 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ro.mihaiblaga.jetlagtool.presentation.home.map.MapEvent
 import ro.mihaiblaga.jetlagtool.presentation.home.map.MapViewModel
+import ro.mihaiblaga.jetlagtool.presentation.home.map.Tool
 
 @Composable
 fun BottomBar(
     modifier: Modifier = Modifier,
-    model: MapViewModel
+    viewModel: MapViewModel
 ) {
     var isExpanded by remember { mutableStateOf(true) }
 
+    val mapState = viewModel.state.collectAsState()
 
     BottomAppBar(
         modifier = modifier
@@ -70,24 +74,58 @@ fun BottomBar(
                     horizontalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
                     FloatingActionButton(
-                        onClick = { /* TODO: Action for Camera */ },
-                        shape = CircleShape
-                    ) {
-                        Icon(Icons.Filled.Home, "Home")
-                    }
-                    FloatingActionButton(
-                        onClick = { /* TODO: Action for Edit */ },
-                        shape = CircleShape
-                    ) {
-                        Icon(Icons.Filled.Edit, "Edit")
-                    }
-                    FloatingActionButton(
                         onClick = {
-                            model.onEvent(MapEvent.DrawFeatures)
+                            viewModel.onEvent(MapEvent.ClearMap)
                         },
                         shape = CircleShape
                     ) {
-                        Icon(Icons.Filled.Call, "Call")
+                        Icon(Icons.Filled.Delete, "Delete")
+                    }
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .then(
+                                if (mapState.value.currentTool == Tool.Circle)
+                                    Modifier
+                                        .border(
+                                            width = 2.dp,
+                                            color = MaterialTheme.colorScheme.surfaceTint,
+                                            shape = CircleShape
+                                        )
+                                else Modifier
+                            ),
+                        onClick = {
+                            if (mapState.value.currentTool != Tool.Circle) {
+                                viewModel.onEvent(MapEvent.ChangeTool(Tool.Circle))
+                            } else {
+                                viewModel.onEvent(MapEvent.ChangeTool(Tool.Regular))
+                            }
+                        },
+                        shape = CircleShape
+                    ) {
+                        Icon(Icons.TwoTone.Circle, "Circle Tool")
+                    }
+                    FloatingActionButton(
+                        modifier = Modifier
+                            .then(
+                                if (mapState.value.currentTool == Tool.Line)
+                                    Modifier
+                                        .border(
+                                            width = 2.dp,
+                                            color = MaterialTheme.colorScheme.surfaceTint,
+                                            shape = CircleShape
+                                        )
+                                else Modifier
+                            ),
+                        onClick = {
+                            if (mapState.value.currentTool != Tool.Line) {
+                                viewModel.onEvent(MapEvent.ChangeTool(Tool.Line))
+                            } else {
+                                viewModel.onEvent(MapEvent.ChangeTool(Tool.Regular))
+                            }
+                        },
+                        shape = CircleShape
+                    ) {
+                        Icon(Icons.Filled.LinearScale, "Line Tool")
                     }
                 }
 
@@ -120,6 +158,6 @@ fun BottomBar(
 @Preview
 fun BottomBarPreview() {
     BottomBar(
-        model = hiltViewModel()
+        viewModel = hiltViewModel()
     )
 }
