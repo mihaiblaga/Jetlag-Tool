@@ -1,10 +1,20 @@
 package ro.mihaiblaga.jetlagtool.util
 
+import androidx.core.graphics.toColorInt
 import com.google.gson.JsonObject
+import org.maplibre.android.geometry.LatLng
 import org.maplibre.android.maps.Style
+import org.maplibre.android.style.layers.CircleLayer
+import org.maplibre.android.style.layers.FillLayer
+import org.maplibre.android.style.layers.LineLayer
+import org.maplibre.android.style.layers.PropertyFactory.fillColor
+import org.maplibre.android.style.layers.PropertyFactory.fillOpacity
+import org.maplibre.android.style.layers.PropertyFactory.lineColor
+import org.maplibre.android.style.layers.PropertyFactory.lineWidth
 import org.maplibre.android.style.sources.GeoJsonSource
 import org.maplibre.geojson.Feature
 import org.maplibre.geojson.FeatureCollection
+import org.maplibre.geojson.LineString
 import org.maplibre.geojson.Point
 import org.maplibre.turf.TurfConstants
 import org.maplibre.turf.TurfMeasurement
@@ -56,4 +66,32 @@ fun createCircleFeatureFromTwoPoints(
         TurfTransformation.circle(centerPoint, radius, steps, TurfConstants.UNIT_KILOMETERS)
 
     return Feature.fromGeometry(circle, properties)
+}
+
+fun createLineStringFeature(points: List<LatLng>): Feature? {
+    val points = points.map { Point.fromLngLat(it.longitude, it.latitude) }
+    return Feature.fromGeometry(LineString.fromLngLats(points))
+}
+
+fun initializeSourcesLayers(style: Style) {
+    val pointSourceId = "feature-point-source"
+    val pointLayerId = "feature-point-layer"
+    val pointLayer = CircleLayer(pointLayerId, pointSourceId)
+    pointLayer.setProperties(fillColor("#80FF0000".toColorInt()), fillOpacity(0.5f))
+    style.addSource(GeoJsonSource(pointSourceId))
+    style.addLayer(pointLayer)
+
+    val lineSourceId = "feature-line-source"
+    val lineLayerId = "feature-line-layer"
+    val lineLayer = LineLayer(lineLayerId, lineSourceId)
+    lineLayer.setProperties(lineWidth(3f), lineColor("#000FF0".toColorInt()))
+    style.addSource(GeoJsonSource(lineSourceId))
+    style.addLayer(lineLayer)
+
+    val polygonSourceId = "feature-polygon-source"
+    val polygonLayerId = "feature-polygon-layer"
+    val fillLayer = FillLayer(polygonLayerId, polygonSourceId)
+    fillLayer.setProperties(fillColor("#80FF0000".toColorInt()), fillOpacity(0.5f))
+    style.addSource(GeoJsonSource(polygonSourceId))
+    style.addLayer(fillLayer)
 }

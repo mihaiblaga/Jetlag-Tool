@@ -9,7 +9,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.graphics.toColorInt
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
@@ -17,17 +16,9 @@ import org.maplibre.android.MapLibre
 import org.maplibre.android.WellKnownTileServer
 import org.maplibre.android.maps.MapLibreMap
 import org.maplibre.android.maps.MapView
-import org.maplibre.android.maps.Style
-import org.maplibre.android.style.layers.CircleLayer
-import org.maplibre.android.style.layers.FillLayer
-import org.maplibre.android.style.layers.LineLayer
-import org.maplibre.android.style.layers.PropertyFactory.fillColor
-import org.maplibre.android.style.layers.PropertyFactory.fillOpacity
-import org.maplibre.android.style.layers.PropertyFactory.lineColor
-import org.maplibre.android.style.layers.PropertyFactory.lineWidth
-import org.maplibre.android.style.sources.GeoJsonSource
 import ro.mihaiblaga.jetlagtool.BuildConfig
 import ro.mihaiblaga.jetlagtool.util.drawFeatures
+import ro.mihaiblaga.jetlagtool.util.initializeSourcesLayers
 
 
 @Composable
@@ -71,8 +62,6 @@ fun MapView(
         }
     }
 
-
-
     AndroidView(
         factory = {
             val styleUrl = BuildConfig.STYLE_URL
@@ -111,27 +100,4 @@ fun MapView(
             }
         }
     )
-}
-
-fun initializeSourcesLayers(style: Style) {
-    val pointSourceId = "feature-point-source"
-    val pointLayerId = "feature-point-layer"
-    val pointLayer = CircleLayer(pointLayerId, pointSourceId)
-    pointLayer.setProperties(fillColor("#80FF0000".toColorInt()), fillOpacity(0.5f))
-    style.addSource(GeoJsonSource(pointSourceId))
-    style.addLayer(pointLayer)
-
-    val lineSourceId = "feature-line-source"
-    val lineLayerId = "feature-line-layer"
-    val lineLayer = LineLayer(lineLayerId, lineSourceId)
-    lineLayer.setProperties(lineWidth(3f), lineColor("#000FF0".toColorInt()))
-    style.addSource(GeoJsonSource(lineSourceId))
-    style.addLayer(lineLayer)
-
-    val polygonSourceId = "feature-polygon-source"
-    val polygonLayerId = "feature-polygon-layer"
-    val fillLayer = FillLayer(polygonLayerId, polygonSourceId)
-    fillLayer.setProperties(fillColor("#80FF0000".toColorInt()), fillOpacity(0.5f))
-    style.addSource(GeoJsonSource(polygonSourceId))
-    style.addLayer(fillLayer)
 }

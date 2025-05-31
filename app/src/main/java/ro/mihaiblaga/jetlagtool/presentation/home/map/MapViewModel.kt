@@ -11,6 +11,7 @@ import kotlinx.coroutines.launch
 import org.maplibre.geojson.Point
 import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
 import ro.mihaiblaga.jetlagtool.util.createCircleFeatureFromTwoPoints
+import ro.mihaiblaga.jetlagtool.util.createLineStringFeature
 import javax.inject.Inject
 
 @HiltViewModel
@@ -52,7 +53,8 @@ class MapViewModel @Inject constructor(
             is MapEvent.ClearSelectedPoints -> TODO()
             is MapEvent.ChangeTool -> {
                 _state.value = _state.value.copy(
-                    currentTool = event.tool
+                    currentTool = event.tool,
+                    selectedPoints = emptyList()
                 )
                 Log.d("MapViewModel", "Changed tool to: ${event.tool}")
             }
@@ -71,11 +73,7 @@ class MapViewModel @Inject constructor(
         when (_state.value.currentTool) {
             Tool.Circle -> {
                 when (_state.value.selectedPoints.size) {
-                    0 -> {
-                        Log.d("MapViewModel", "Not enough points to draw circle")
-                    }
-
-                    1 -> {
+                    0, 1 -> {
                         Log.d("MapViewModel", "Not enough points to draw circle")
                     }
 
@@ -102,8 +100,25 @@ class MapViewModel @Inject constructor(
                 }
             }
 
+            Tool.Line -> {
+                when (_state.value.selectedPoints.size) {
+                    0, 1 -> {
+                        Log.d("MapViewModel", "Not enough points to draw line")
+                    }
 
-            Tool.Line -> TODO()
+                    else -> {
+                        val lineString = createLineStringFeature(_state.value.selectedPoints)
+                        if (lineString != null) {
+                            _state.update {
+                                it.copy(
+                                    features = it.features?.plus(lineString),
+                                )
+                            }
+                        }
+                        Log.d("MapViewModel", "Drawn line: $lineString")
+                    }
+                }
+            }
             Tool.Point -> TODO()
             Tool.Regular -> TODO()
         }
