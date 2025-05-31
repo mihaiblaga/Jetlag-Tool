@@ -70,29 +70,36 @@ class MapViewModel @Inject constructor(
     fun handlePoints() {
         when (_state.value.currentTool) {
             Tool.Circle -> {
-                if (_state.value.selectedPoints.size == 2) {
-                    val centerPoint = _state.value.selectedPoints[0]
-                    val pointOnCircumference = _state.value.selectedPoints[1]
-                    val circle = createCircleFeatureFromTwoPoints(
-                        Point.fromLngLat(centerPoint.longitude, centerPoint.latitude),
-                        Point.fromLngLat(
-                            pointOnCircumference.longitude,
-                            pointOnCircumference.latitude
-                        )
-                    )
-                    if (circle != null) {
-                        _state.update {
-                            it.copy(
-                                features = it.features?.plus(circle),
-                                selectedPoints = emptyList()
-                            )
-                        }
+                when (_state.value.selectedPoints.size) {
+                    0 -> {
+                        Log.d("MapViewModel", "Not enough points to draw circle")
                     }
-                    Log.d("MapViewModel", "Drawn circle: $circle")
-                } else {
-                    Log.d("MapViewModel", "Not enough points to draw circle")
-                }
 
+                    1 -> {
+                        Log.d("MapViewModel", "Not enough points to draw circle")
+                    }
+
+                    else -> {
+                        val centerPoint = _state.value.selectedPoints[0]
+                        val pointOnCircumference = _state.value.selectedPoints[1]
+                        val circle = createCircleFeatureFromTwoPoints(
+                            Point.fromLngLat(centerPoint.longitude, centerPoint.latitude),
+                            Point.fromLngLat(
+                                pointOnCircumference.longitude,
+                                pointOnCircumference.latitude
+                            )
+                        )
+                        if (circle != null) {
+                            _state.update {
+                                it.copy(
+                                    features = it.features?.plus(circle),
+                                    selectedPoints = emptyList()
+                                )
+                            }
+                        }
+                        Log.d("MapViewModel", "Drawn circle: $circle")
+                    }
+                }
             }
 
 

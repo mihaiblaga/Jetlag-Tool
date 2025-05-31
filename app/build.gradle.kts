@@ -24,6 +24,11 @@ android {
     buildTypes {
         release {
             buildConfigField("String", "MAPLIBRE_ACCESS_TOKEN", "\"${project.properties["MAPLIBRE_ACCESS_TOKEN"]}\"")
+            buildConfigField(
+                "String",
+                "STYLE_URL",
+                "\"${project.properties["STYLE_URL"]}${project.properties["MAPLIBRE_ACCESS_TOKEN"]}\""
+            )
             isMinifyEnabled = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
@@ -32,6 +37,11 @@ android {
         }
         debug {
             buildConfigField("String", "MAPLIBRE_ACCESS_TOKEN", "\"${project.properties["MAPLIBRE_ACCESS_TOKEN"]}\"")
+            buildConfigField(
+                "String",
+                "STYLE_URL",
+                "\"${project.properties["STYLE_URL"]}${project.properties["MAPLIBRE_ACCESS_TOKEN"]}\""
+            )
         }
     }
     compileOptions {

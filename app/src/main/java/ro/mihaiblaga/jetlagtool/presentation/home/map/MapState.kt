@@ -8,6 +8,5 @@ data class MapState(
     val cameraPosition: CameraPosition = CameraPosition.Builder().build(),
     val features: List<Feature>? = emptyList(),
     val currentTool: Tool = Tool.Regular,
-    val selectedPoints: List<LatLng> = emptyList()
-
+    val selectedPoints: List<LatLng> = emptyList(),
 )
