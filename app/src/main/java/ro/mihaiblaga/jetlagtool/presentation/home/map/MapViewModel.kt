@@ -34,7 +34,8 @@ class MapViewModel @Inject constructor(
             is MapEvent.AddMarker -> TODO()
             is MapEvent.ClearMap -> {
                 _state.value = _state.value.copy(
-                    features = emptyList()
+                    features = emptyList(),
+                    selectedPoints = emptyList()
                 )
                 Log.d("MapViewModel", "Cleared map")
             }

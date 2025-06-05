@@ -33,6 +33,9 @@ class MainActivity : ComponentActivity() {
                         modifier = Modifier
                             .consumeWindowInsets(innerPadding)
                     )
+//                    QuestionsScreen(modifier = Modifier
+//                        .padding(innerPadding)
+//                    )
                 }
 
 
