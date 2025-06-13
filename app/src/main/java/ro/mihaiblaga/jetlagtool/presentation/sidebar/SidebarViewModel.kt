@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import ro.mihaiblaga.jetlagtool.data.repository.FakeAdministrativeDivisionRepositoryImpl
 import ro.mihaiblaga.jetlagtool.domain.repository.AdministrativeDivisionRepository
 import javax.inject.Inject
 
@@ -25,3 +26,5 @@ class SidebarViewModel @Inject constructor(
     }
 
 }
+
+val fakeSidebarViewModel = SidebarViewModel(FakeAdministrativeDivisionRepositoryImpl())

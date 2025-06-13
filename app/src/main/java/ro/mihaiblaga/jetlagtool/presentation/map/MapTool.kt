@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.presentation.home.map
+package ro.mihaiblaga.jetlagtool.presentation.map
 
 sealed class MapTool {
     data object Regular : MapTool()

@@ -33,10 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
-import ro.mihaiblaga.jetlagtool.presentation.home.map.MapEvent
-import ro.mihaiblaga.jetlagtool.presentation.home.map.MapTool
-import ro.mihaiblaga.jetlagtool.presentation.home.map.MapViewModel
+import ro.mihaiblaga.jetlagtool.presentation.map.MapEvent
+import ro.mihaiblaga.jetlagtool.presentation.map.MapTool
+import ro.mihaiblaga.jetlagtool.presentation.map.MapViewModel
+import ro.mihaiblaga.jetlagtool.presentation.map.fakeMapViewModel
 
 @Composable
 fun BottomBar(
@@ -158,6 +158,6 @@ fun BottomBar(
 @Preview
 fun BottomBarPreview() {
     BottomBar(
-        viewModel = hiltViewModel()
+        viewModel = fakeMapViewModel
     )
 }

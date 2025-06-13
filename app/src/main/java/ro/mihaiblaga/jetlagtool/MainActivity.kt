@@ -4,12 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.consumeWindowInsets
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import ro.mihaiblaga.jetlagtool.presentation.questions.QuestionsScreen
+import ro.mihaiblaga.jetlagtool.presentation.home.HomeScreen
 import ro.mihaiblaga.jetlagtool.ui.theme.JetlagToolTheme
 
 
@@ -27,17 +27,17 @@ class MainActivity : ComponentActivity() {
                 Scaffold(
                     modifier = Modifier,
                 ) { innerPadding ->
-//                    HomeScreen(
-//                        mapViewModel = hiltViewModel(),
-//                        sidebarViewModel = hiltViewModel(),
-//                        modifier = Modifier
-//                            .consumeWindowInsets(innerPadding)
-//                    )
-                    QuestionsScreen(
+                    HomeScreen(
+                        mapViewModel = hiltViewModel(),
+                        sidebarViewModel = hiltViewModel(),
                         modifier = Modifier
-                            .padding(innerPadding),
-                        viewModel = hiltViewModel(),
+                            .consumeWindowInsets(innerPadding)
                     )
+//                    QuestionsScreen(
+//                        modifier = Modifier
+//                            .padding(innerPadding),
+//                        viewModel = hiltViewModel(),
+//                    )
                 }
 
 

@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.presentation.home.map
+package ro.mihaiblaga.jetlagtool.presentation.map
 
 import android.util.Log
 import androidx.compose.runtime.Composable

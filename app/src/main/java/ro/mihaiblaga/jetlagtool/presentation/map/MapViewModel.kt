@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.presentation.home.map
+package ro.mihaiblaga.jetlagtool.presentation.map
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -9,6 +9,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import org.maplibre.geojson.Point
+import ro.mihaiblaga.jetlagtool.data.repository.FakeFeatureRepository
 import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
 import ro.mihaiblaga.jetlagtool.util.createCircleFeatureFromTwoPoints
 import ro.mihaiblaga.jetlagtool.util.createLineStringFeature
@@ -126,3 +127,5 @@ class MapViewModel @Inject constructor(
         }
     }
 }
+
+val fakeMapViewModel = MapViewModel(FakeFeatureRepository())

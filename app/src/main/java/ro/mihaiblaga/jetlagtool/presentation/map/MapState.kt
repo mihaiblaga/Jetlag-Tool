@@ -1,4 +1,4 @@
-package ro.mihaiblaga.jetlagtool.presentation.home.map
+package ro.mihaiblaga.jetlagtool.presentation.map
 
 import org.maplibre.android.camera.CameraPosition
 import org.maplibre.android.geometry.LatLng
