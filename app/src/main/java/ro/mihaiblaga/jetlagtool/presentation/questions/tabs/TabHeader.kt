@@ -14,14 +14,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ro.mihaiblaga.jetlagtool.presentation.questions.GameModes
-import ro.mihaiblaga.jetlagtool.presentation.questions.QuestionType
+import ro.mihaiblaga.jetlagtool.domain.model.Category
 
 @Preview(showBackground = true)
 @Composable
 fun TabHeader(
     modifier: Modifier = Modifier,
-    questionType: QuestionType = GameModes.PHOTOS_MODE
+    category: Category = Category.MEASURING
 ) {
     Row(
         modifier = modifier
@@ -36,7 +35,7 @@ fun TabHeader(
                 Text(
                     modifier = Modifier
                         .padding(vertical = 20.dp),
-                    text = questionType.title,
+                    text = category.name,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                 )
@@ -51,10 +50,10 @@ fun TabHeader(
                 Text("Cost: ")
 
 
-                Text(questionType.cost)
+//                Text(questionType.cost)
                 Spacer(modifier = Modifier.padding(horizontal = 10.dp))
                 Text("Time: ")
-                Text(questionType.time)
+//                Text(questionType.time)
             }
         }
     }

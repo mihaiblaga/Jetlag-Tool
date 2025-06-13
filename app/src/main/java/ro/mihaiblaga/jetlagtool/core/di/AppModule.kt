@@ -8,8 +8,10 @@ import dagger.hilt.components.SingletonComponent
 import ro.mihaiblaga.jetlagtool.data.local.AppDatabase
 import ro.mihaiblaga.jetlagtool.data.repository.AdministrativeDivisionRepositoryImpl
 import ro.mihaiblaga.jetlagtool.data.repository.FeatureRepositoryImpl
+import ro.mihaiblaga.jetlagtool.data.repository.QuestionRepositoryImpl
 import ro.mihaiblaga.jetlagtool.domain.repository.AdministrativeDivisionRepository
 import ro.mihaiblaga.jetlagtool.domain.repository.FeatureRepository
+import ro.mihaiblaga.jetlagtool.domain.repository.QuestionRepository
 import javax.inject.Singleton
 
 @Module
@@ -36,6 +38,14 @@ object AppModule {
     fun provideFeatureRepository(database: AppDatabase): FeatureRepository {
         return FeatureRepositoryImpl(
             database.featureDao()
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideQuestionRepository(database: AppDatabase): QuestionRepository {
+        return QuestionRepositoryImpl(
+            database.questionDao()
         )
     }
 }

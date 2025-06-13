@@ -11,25 +11,24 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import ro.mihaiblaga.jetlagtool.presentation.questions.GameModes
-import ro.mihaiblaga.jetlagtool.presentation.questions.QuestionType
+import ro.mihaiblaga.jetlagtool.presentation.questions.QuestionsState
 
-@Preview
 @Composable
 fun QuestionsTab(
     modifier: Modifier = Modifier,
-    mode: QuestionType = GameModes.PHOTOS_MODE
+    uiState: QuestionsState
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
     ) {
         Column() {
-            TabHeader(questionType = mode)
+            TabHeader(category = uiState.selectedCategory)
+            val questionsInCategory =
+                uiState.questions.filter { it.category == uiState.selectedCategory }
             LazyColumn {
-                items(mode.categories) { category ->
+                val questionsByType = questionsInCategory.groupBy { it.type }
+                items(questionsByType.keys.toList()) { type ->
                     Row() {
                         Column() {
                             Text(
@@ -37,15 +36,13 @@ fun QuestionsTab(
                                     .padding(horizontal = 20.dp)
                                     .padding(top = 8.dp),
                                 color = MaterialTheme.colorScheme.primary,
-                                text = category.title
+                                text = type
                             )
-                            category.fields.forEach { field ->
+                            questionsByType[type]?.forEach {
                                 Card(
-                                    modifier
-                                        .padding(vertical = 8.dp), field
+                                    modifier.padding(vertical = 8.dp), question = it
                                 )
                             }
-
                         }
                     }
                 }

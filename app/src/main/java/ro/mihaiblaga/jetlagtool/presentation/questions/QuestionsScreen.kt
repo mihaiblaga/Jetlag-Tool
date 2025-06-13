@@ -16,21 +16,19 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ro.mihaiblaga.jetlagtool.presentation.questions.tabs.QuestionsTab
 
-@Preview
 @Composable
-fun QuestionsScreen(modifier: Modifier = Modifier) {
-    var selectedQuestionType by remember { mutableStateOf<QuestionType>(GameModes.PHOTOS_MODE) }
-    var isDropdownExpanded by remember { mutableStateOf(false) }
+fun QuestionsScreen(
+    modifier: Modifier = Modifier,
+    viewModel: QuestionsViewModel
+) {
+    val uiState by viewModel.state.collectAsState()
     Box(
         modifier = modifier
             .fillMaxSize()
@@ -54,10 +52,10 @@ fun QuestionsScreen(modifier: Modifier = Modifier) {
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(horizontal = 10.dp),
-                        onClick = { isDropdownExpanded = !isDropdownExpanded },
+                        onClick = { viewModel.toggleQuestionsDropdown() },
                     ) {
-                        Text(selectedQuestionType.title)
-                        if (!isDropdownExpanded) {
+                        Text(uiState.selectedCategory.toString())
+                        if (!uiState.isDropdownExpanded) {
                             Icon(
                                 imageVector = Icons.Filled.ArrowDropDown,
                                 contentDescription = null
@@ -68,27 +66,27 @@ fun QuestionsScreen(modifier: Modifier = Modifier) {
                     }
                     AnimatedVisibility(
                         modifier = Modifier,
-                        visible = isDropdownExpanded
+                        visible = uiState.isDropdownExpanded
                     ) {
                         Column(
                             modifier = Modifier
                                 .padding(horizontal = 10.dp),
                         ) {
-                            ALL_GAME_MODES_ORDERED.forEach {
+                            uiState.categories.forEach {
                                 Button(
                                     modifier = Modifier
                                         .fillMaxWidth(),
                                     onClick = {
-                                        selectedQuestionType = it
-                                        isDropdownExpanded = false
+                                        viewModel.setCategory(it)
+                                        viewModel.toggleQuestionsDropdown()
                                     },
                                 ) {
-                                    Text(it.title)
+                                    Text(it.name)
                                 }
                             }
                         }
                     }
-                    QuestionsTab(modifier = Modifier, selectedQuestionType)
+                    QuestionsTab(modifier = Modifier, uiState)
                 }
             }
         }

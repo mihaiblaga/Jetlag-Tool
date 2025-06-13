@@ -15,12 +15,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import ro.mihaiblaga.jetlagtool.presentation.questions.Field
+import ro.mihaiblaga.jetlagtool.domain.model.Category
+import ro.mihaiblaga.jetlagtool.domain.model.GameSize
+import ro.mihaiblaga.jetlagtool.domain.model.Question
 
 @Composable
 fun Card(
     modifier: Modifier = Modifier,
-    field: Field
+    question: Question
 ) {
     Box(
         modifier = modifier
@@ -39,12 +41,12 @@ fun Card(
         ) {
             Text(
                 modifier = Modifier.padding(vertical = 3.dp),
-                text = field.label,
+                text = question.text,
                 fontWeight = FontWeight.Bold,
                 fontSize = 16.sp
             )
-            if (field.description != null) {
-                Text(field.description)
+            if (question.description != null) {
+                Text(question.description)
             }
         }
     }
@@ -59,10 +61,16 @@ fun CardPreview(
 ) {
     Card(
         modifier = modifier,
-        field = Field(
-            id = "tree",
-            label = "🌳 A Tree",
-            description = "Must include the entire tree."
+        question = Question(
+            id = 1,
+            text = "🌳 A Tree",
+            description = "Must include the entire tree.",
+            category = Category.PHOTOGRAPHIC,
+            type = "Test",
+            gameSizes = listOf(GameSize.SMALL, GameSize.MEDIUM, GameSize.LARGE),
+            cost = "Draw 3 cards",
+            time = "5 minutes",
+            distance = 123
         )
     )
 

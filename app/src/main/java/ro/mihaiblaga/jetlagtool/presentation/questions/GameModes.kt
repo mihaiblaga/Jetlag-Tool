@@ -193,7 +193,7 @@ object GameModes {
                 )
             ),
             Category(
-                title = "Large Games Only",
+                title = "Large Games",
                 distance = 15,
                 fields = listOf(
                     Field(id = "metro-lines", label = "🚇 Metro Lines"),
@@ -246,7 +246,7 @@ object GameModes {
                 )
             ),
             Category(
-                title = "Add for Medium & Large",
+                title = "Medium & Large Games",
                 fields = listOf(
                     Field(
                         id = "tallest-building-from-station",
@@ -291,7 +291,7 @@ object GameModes {
                 )
             ),
             Category(
-                title = "Add for Large",
+                title = "Large Games",
                 fields = listOf(
                     Field(
                         id = "streets-traced",
