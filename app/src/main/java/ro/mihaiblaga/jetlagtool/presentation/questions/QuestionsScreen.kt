@@ -21,12 +21,14 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import ro.mihaiblaga.jetlagtool.presentation.questions.tabs.QuestionsTab
 
 @Composable
 fun QuestionsScreen(
     modifier: Modifier = Modifier,
-    viewModel: QuestionsViewModel
+    viewModel: QuestionsViewModel,
+    navController: NavHostController
 ) {
     val uiState by viewModel.state.collectAsState()
     Box(
@@ -86,7 +88,7 @@ fun QuestionsScreen(
                             }
                         }
                     }
-                    QuestionsTab(modifier = Modifier, uiState)
+                    QuestionsTab(modifier = Modifier, uiState, navController = navController)
                 }
             }
         }

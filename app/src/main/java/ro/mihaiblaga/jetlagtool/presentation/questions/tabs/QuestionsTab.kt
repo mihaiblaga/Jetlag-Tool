@@ -12,12 +12,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import ro.mihaiblaga.jetlagtool.presentation.questions.QuestionsState
 
 @Composable
 fun QuestionsTab(
     modifier: Modifier = Modifier,
-    uiState: QuestionsState
+    uiState: QuestionsState,
+    navController: NavHostController
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
@@ -40,7 +42,9 @@ fun QuestionsTab(
                             )
                             questionsByType[type]?.forEach {
                                 Card(
-                                    modifier.padding(vertical = 8.dp), question = it
+                                    modifier.padding(vertical = 8.dp),
+                                    question = it,
+                                    navController = navController,
                                 )
                             }
                         }

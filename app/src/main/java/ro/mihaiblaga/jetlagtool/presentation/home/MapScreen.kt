@@ -25,20 +25,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.launch
 import ro.mihaiblaga.jetlagtool.presentation.home.bottombar.BottomBar
 import ro.mihaiblaga.jetlagtool.presentation.home.topbar.TopBar
 import ro.mihaiblaga.jetlagtool.presentation.map.MapView
 import ro.mihaiblaga.jetlagtool.presentation.map.MapViewModel
 import ro.mihaiblaga.jetlagtool.presentation.map.fakeMapViewModel
-import ro.mihaiblaga.jetlagtool.presentation.sidebar.SidebarViewModel
-import ro.mihaiblaga.jetlagtool.presentation.sidebar.fakeSidebarViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
-    mapViewModel: MapViewModel,
-    sidebarViewModel: SidebarViewModel,
+fun MapScreen(
+    viewModel: MapViewModel,
     modifier: Modifier = Modifier,
 ) {
     val isInPreview = LocalInspectionMode.current
@@ -55,7 +53,7 @@ fun HomeScreen(
             Sidebar(
                 modifier = modifier
                     .fillMaxHeight(),
-                viewModel = sidebarViewModel,
+                viewModel = hiltViewModel(),
                 onCloseButtonClicked = {
                     scope.launch {
                         drawerState.close()
@@ -82,7 +80,7 @@ fun HomeScreen(
             bottomBar = {
                 BottomBar(
                     modifier = Modifier.fillMaxWidth(),
-                    viewModel = mapViewModel
+                    viewModel = viewModel
                 )
             }
         ) { innerPadding ->
@@ -99,7 +97,7 @@ fun HomeScreen(
                 } else {
                     MapView(
                         modifier = modifier,
-                        viewModel = mapViewModel
+                        viewModel = viewModel
                     )
                 }
             }
@@ -123,10 +121,9 @@ fun PreviewPlaceholder(modifier: Modifier = Modifier, text: String) {
 
 @Preview
 @Composable
-fun HomeViewPreview() {
-    HomeScreen(
-        mapViewModel = fakeMapViewModel,
-        sidebarViewModel = fakeSidebarViewModel,
+fun MapScreenPreview() {
+    MapScreen(
+        viewModel = fakeMapViewModel,
         modifier = Modifier
             .fillMaxSize()
     )
